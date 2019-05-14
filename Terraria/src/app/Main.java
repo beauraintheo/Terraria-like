@@ -17,9 +17,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {	
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/vuePlateau.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Test.fxml"));
 			root=loader.load();	
-			scene = new Scene(root,12*16,12*16);
+			scene = new Scene(root,800,600);
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
 			primaryStage.initStyle(StageStyle.DECORATED);

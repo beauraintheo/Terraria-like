@@ -9,9 +9,9 @@ import java.io.InputStreamReader;
 
 public class BuilderPlateau {
 
-	private static int notreMap[][];
-	private static int width;
-	private static int height;
+	private int notreMap[][];
+	private int width;
+	private int height;
 
 	public void remplirPlateau() {
 
@@ -20,7 +20,7 @@ public class BuilderPlateau {
 
 
 
-	public static void lireFichier(String url) {
+	public void lireFichier(String url) {
 		FileInputStream fis = null;
 		String ligne = "";
 		try {
@@ -42,10 +42,10 @@ public class BuilderPlateau {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		width=80;
-		height=80;
-		int[][] plateau = new int[width][height];
-		String[] sampleString = new String[width];
+		this.width=80;
+		this.height=80;
+		int[][] plateau = new int[this.width][this.height];
+		String[] sampleString = new String[this.width];
 		try {
 			int i = 0;
 			if(url.contains(".csv")) {
@@ -70,7 +70,7 @@ public class BuilderPlateau {
 				}
 			}
 		}
-		int[][] returntableau = new int[width][height];
+		int[][] returntableau = new int[this.width][this.height];
 		for (int i = 0; i < returntableau.length-1; i++) {
 			for (int j = 0; j < returntableau[i].length; j++) {
 				System.out.print(plateau[i][j]);
@@ -78,11 +78,11 @@ public class BuilderPlateau {
 			}
 		System.out.println();
 		}
-		notreMap =  returntableau;
+		this.notreMap =  returntableau;
 	}
 
 
-	public static int[] stringTableCaster(String[] tab) {
+	public int[] stringTableCaster(String[] tab) {
 		int[] res = new int[tab.length];
 		for(int i = 0; i < tab.length; i++) {
 			res[i] = Integer.parseInt(tab[i]);
@@ -109,6 +109,10 @@ public class BuilderPlateau {
 
 	public int getHeight() {
 		return this.height;
+	}
+	
+	public int[][] getPlateau(){
+		return this.notreMap;
 	}
 }
 	
