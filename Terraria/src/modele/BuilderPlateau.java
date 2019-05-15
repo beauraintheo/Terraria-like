@@ -73,10 +73,10 @@ public class BuilderPlateau {
 		int[][] returntableau = new int[this.width][this.height];
 		for (int i = 0; i < returntableau.length-1; i++) {
 			for (int j = 0; j < returntableau[i].length; j++) {
-				System.out.print(plateau[i][j]);
+				//System.out.print(plateau[i][j]);
 				returntableau[i][j] = plateau[j][i];
 			}
-		System.out.println();
+		//System.out.println();
 		}
 		this.notreMap =  returntableau;
 	}

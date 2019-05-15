@@ -19,9 +19,10 @@ public class Main extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Test.fxml"));
 			root=loader.load();	
-			scene = new Scene(root,800,600);
+			scene = new Scene(root,820,820);
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
+			primaryStage.setTitle("Terraria");
 			primaryStage.initStyle(StageStyle.DECORATED);
 			primaryStage.show();
 		} catch (Exception e) {

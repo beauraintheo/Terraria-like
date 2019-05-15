@@ -4,15 +4,19 @@ import modele.BuilderPlateau;
 
 public class vuePlateau {
 	
-	BuilderPlateau bp = new BuilderPlateau();
-	String url="src/vue/maps/map1.csv";
-	int [][] notremap;
+	private int [][] notreMap;	
+	private BuilderPlateau bp = new BuilderPlateau();
+	private String url = "Ressources/Maps/mapTest.csv";
 	
-	public void afficherMap() {
+	/*public void afficherMap() {
 		this.bp.lireFichier(this.url);
-		this.notremap=bp.getPlateau();
-		
-	}
+		this.notreMap = bp.getPlateau();
+	}*/
 	
+	public int[][] getMap() {
+		this.bp.lireFichier(this.url);
+		this.notreMap = bp.getPlateau();
+		return this.notreMap;
+	}
 
 }
