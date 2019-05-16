@@ -10,15 +10,16 @@ import javafx.stage.StageStyle;
 
 public class Main extends Application {
 
-
 	@FXML
 	BorderPane root;
+	
 	public static Scene scene;
+	
 	@Override
 	public void start(Stage primaryStage) {	
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Test.fxml"));
-			root=loader.load();	
+			root = loader.load();	
 			scene = new Scene(root,820,820);
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
@@ -38,6 +39,4 @@ public class Main extends Application {
 		return scene;
 
 	}
-	
-
 }

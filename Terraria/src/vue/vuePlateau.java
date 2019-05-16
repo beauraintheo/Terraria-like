@@ -8,15 +8,9 @@ public class vuePlateau {
 	private BuilderPlateau bp = new BuilderPlateau();
 	private String url = "Ressources/Maps/mapTest.csv";
 	
-	/*public void afficherMap() {
-		this.bp.lireFichier(this.url);
-		this.notreMap = bp.getPlateau();
-	}*/
-	
 	public int[][] getMap() {
 		this.bp.lireFichier(this.url);
 		this.notreMap = bp.getPlateau();
 		return this.notreMap;
 	}
-
 }

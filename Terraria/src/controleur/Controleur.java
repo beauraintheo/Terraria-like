@@ -23,7 +23,6 @@ public class Controleur implements Initializable{
 	private vuePlateau vueMap = new vuePlateau();
 	private int[][] notreMap;
 	private Image tuiles;
-	private PixelReader reader;
 	private int tilesetX = 0;
 	private int tilesetY = 0;
 	
@@ -40,15 +39,13 @@ public class Controleur implements Initializable{
     	notreMap = vueMap.getMap();
     	tuiles = new Image("/vue/maps/tileset.png");
     	
-    	for(int x=0; x<notreMap.length-1;x++) {
-    		for(int y=0; y<notreMap[x].length;y++) {
+    	for (int x = 0; x < notreMap.length - 1; x++) {
+    		for (int y = 0; y < notreMap[x].length; y++) {
 	    		ImageView tuile = new ImageView();
     			tuile.setImage(tuiles);
 	    		selectionTuile(notreMap[x][y]);
     			Rectangle2D decoupage = new Rectangle2D(tilesetX,tilesetY,16,16);
     			tuile.setViewport(decoupage);
-    			
-	    		
 	    		this.tilePaneMap.getChildren().add(tuile);
     		}	
     	}
@@ -105,19 +102,9 @@ public class Controleur implements Initializable{
     	}
     }
     
-    /*public void mouvement(KeyEvent event) {
-    	// Déplacement à gauche
-    	if (event.getCode() == KeyCode.Q || event.getCode() == KeyCode.LEFT) {
-    		player.setImage(pv.gauche());
-    	}
-    	else
-    		player.setImage(pv.gauche());
-    }*/
-    
     @Override
 	public void initialize(URL location,ResourceBundle resources) {
     	initialiserMap();
-    	initialiserJoueur();
-    	
+    	initialiserJoueur();   	
     }
 }
