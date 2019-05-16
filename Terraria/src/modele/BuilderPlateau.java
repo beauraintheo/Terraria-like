@@ -19,7 +19,6 @@ public class BuilderPlateau {
 
 
 
-
 	public void lireFichier(String url) {
 		FileInputStream fis = null;
 		String ligne = "";

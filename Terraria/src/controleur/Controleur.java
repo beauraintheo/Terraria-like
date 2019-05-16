@@ -11,10 +11,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.PixelReader;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 
@@ -23,7 +19,6 @@ public class Controleur implements Initializable{
 	private vuePlateau vueMap = new vuePlateau();
 	private int[][] notreMap;
 	private Image tuiles;
-	private PixelReader reader;
 	private int tilesetX = 0;
 	private int tilesetY = 0;
 	
@@ -104,15 +99,6 @@ public class Controleur implements Initializable{
     			this.tilesetY=18;
     	}
     }
-    
-    /*public void mouvement(KeyEvent event) {
-    	// Déplacement à gauche
-    	if (event.getCode() == KeyCode.Q || event.getCode() == KeyCode.LEFT) {
-    		player.setImage(pv.gauche());
-    	}
-    	else
-    		player.setImage(pv.gauche());
-    }*/
     
     @Override
 	public void initialize(URL location,ResourceBundle resources) {
