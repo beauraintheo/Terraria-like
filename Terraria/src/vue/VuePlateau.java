@@ -2,7 +2,7 @@ package vue;
 
 import modele.BuilderPlateau;
 
-public class vuePlateau {
+public class VuePlateau {
 	
 	private int [][] notreMap;	
 	private BuilderPlateau bp = new BuilderPlateau();
@@ -13,5 +13,4 @@ public class vuePlateau {
 		this.notreMap = bp.getPlateau();
 		return this.notreMap;
 	}
-
 }
