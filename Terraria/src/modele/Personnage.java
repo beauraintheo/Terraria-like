@@ -1,16 +1,16 @@
 package modele;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 public class Personnage {
 	
-	private IntegerProperty coordX;
-	private IntegerProperty coordY;
+	private DoubleProperty coordX;
+	private DoubleProperty coordY;
 	
 	public Personnage() {
-		this.coordX = new SimpleIntegerProperty(250);
-		this.coordY = new SimpleIntegerProperty(270);
+		this.coordX = new SimpleDoubleProperty(250);
+		this.coordY = new SimpleDoubleProperty(270);
 	}
 	
 	public void setCoordX(int x) {
@@ -21,11 +21,11 @@ public class Personnage {
 		this.coordY.setValue(y);
 	}
 	
-	public IntegerProperty getCoordX() {
+	public DoubleProperty getCoordX() {
 		return this.coordX;
 	}
 	
-	public IntegerProperty getCoordY() {
+	public DoubleProperty getCoordY() {
 		return this.coordY;
 	}
 	

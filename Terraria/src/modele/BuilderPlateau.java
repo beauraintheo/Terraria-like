@@ -12,13 +12,6 @@ public class BuilderPlateau {
 	private int notreMap[][];
 	private int width;
 	private int height;
-
-	public void remplirPlateau() {
-
-	}
-
-
-	
 	
 	public void lireFichier(String url) {
 		FileInputStream fis = null;

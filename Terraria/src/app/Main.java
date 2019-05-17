@@ -21,6 +21,7 @@ public class Main extends Application {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Test.fxml"));
 			root = loader.load();	
 			scene = new Scene(root,820,820);
+			root.requestFocus();;
 			primaryStage.setScene(scene);
 			primaryStage.setResizable(false);
 			primaryStage.setTitle("Terraria");
