@@ -1,5 +1,7 @@
 package vue;
 
+import java.io.File;
+
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,7 +15,7 @@ public class VuePlateau {
 	private Image tuiles;
 	
 	public VuePlateau() {
-		tuiles = new Image("/vue/maps/tileset.png");
+		tuiles = new Image(new File("Ressources/Maps/tileset.png").toURI().toString());
 	}
 	
 	public void selectionTuile(int tuile) {
@@ -60,7 +62,6 @@ public class VuePlateau {
 		}
 	}
 
-	
 	public ImageView decoupage(int casePlateau) {
 		ImageView imgTuile = new ImageView(tuiles);
 		selectionTuile(casePlateau);
@@ -69,7 +70,6 @@ public class VuePlateau {
 		return imgTuile;
 	}
 	
-	
 	public int getTilesetX() {
 		return tilesetX;
 	}
@@ -77,5 +77,4 @@ public class VuePlateau {
 	public int getTilesetY() {
 		return tilesetY;
 	}
-
 }
