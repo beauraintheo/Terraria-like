@@ -1,3 +1,8 @@
+/*
+ * Plateau.java
+ * Cette classe sert à créer notre map.
+ */
+
 package modele;
 
 public class Plateau {
@@ -14,9 +19,4 @@ public class Plateau {
 	public int[][] getPlateau() {
 		return plateau;
 	}
-	
-	
-	
-	
-	
 }

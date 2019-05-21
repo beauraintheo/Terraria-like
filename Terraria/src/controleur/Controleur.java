@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import vue.VuePlateau;
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -15,6 +16,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
+import javafx.util.Duration;
 import modele.Personnage;
 import modele.Plateau;
 
@@ -30,17 +32,10 @@ public class Controleur implements Initializable{
 	@FXML
 	private Pane paneJeu;
 
-	@FXML
-	private TilePane tilePaneMap;
-
 	private void initialiserMap() {
-		for (int x = 0; x < plateau.getPlateau().length - 1; x++) {
-			for (int y = 0; y < plateau.getPlateau()[x].length; y++) {
-				int casePlateau = plateau.getPlateau()[x][y];
-				ImageView img = vuePlateau.decoupage(casePlateau);
-				this.tilePaneMap.getChildren().add(img);
-			}	
-		}
+		this.vuePlateau.proprieteTilePane();
+		this.vuePlateau.creeVueMap(plateau);
+		this.paneJeu.getChildren().add(this.vuePlateau.getTilePane());
 	}
 
 	private void initialiserJoueur() {
@@ -48,13 +43,13 @@ public class Controleur implements Initializable{
 		Image persoVue = new Image(img.toURI().toString());
 		personnage = new ImageView(persoVue);
 		this.paneJeu.getChildren().add(personnage);
-
-		this.personnage.layoutXProperty().bind(player.getCoordX());
-		this.personnage.layoutYProperty().bind(player.getCoordY());
-
+		
+		this.personnage.layoutXProperty().bind(player.getPosition().getCoordX());
+		this.personnage.layoutYProperty().bind(player.getPosition().getCoordY());
 	}
 
 	private void initialiserDeplacement() {
+
 		gameloop = new Timeline();
 		gameloop.setCycleCount(Timeline.INDEFINITE);		
 
@@ -66,7 +61,7 @@ public class Controleur implements Initializable{
 			}
 		});
 	}
-
+	
 	@Override
 	public void initialize(URL location,ResourceBundle resources) {
 		this.plateau = new Plateau();
@@ -79,20 +74,21 @@ public class Controleur implements Initializable{
 
 	@FXML
 	void clavier(KeyEvent event) {
-		if (event.getCode() == KeyCode.LEFT) {
-			personnage.setTranslateX(- 1);
+
+		if (event.getCode() == KeyCode.Q) {
+			player.setPosition(player.getPosition().getCoordX().getValue() - 100, player.getPosition().getCoordY().getValue());
 		}
 
-		if (event.getCode() == KeyCode.RIGHT) {
-			personnage.setTranslateX(+ 1);
+		if (event.getCode() == KeyCode.D) {
+			player.setPosition(player.getPosition().getCoordX().getValue() + 100, player.getPosition().getCoordY().getValue());
 		}
 
-		if (event.getCode() == KeyCode.UP) {
-			personnage.setTranslateY(- 1);
+		if (event.getCode() == KeyCode.Z) {
+			player.setPosition(player.getPosition().getCoordX().getValue(), player.getPosition().getCoordY().getValue() - 100);
 		}
 
-		if (event.getCode() == KeyCode.DOWN) {
-			personnage.setTranslateY(+ 1);
+		if (event.getCode() == KeyCode.S) {
+			player.setPosition(player.getPosition().getCoordX().getValue(), player.getPosition().getCoordY().getValue() + 100);
 		}
 	}
 }

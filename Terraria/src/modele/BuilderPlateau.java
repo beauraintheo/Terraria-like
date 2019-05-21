@@ -1,3 +1,8 @@
+/*
+ * BuilderPlateau.java
+ * Cette classe sert à initialiser notre plateau. On prend un fichier csv qu'on lit et à chaque valeur lue, on le stocke dans un tableau d'entiers
+ */
+
 package modele;
 
 import java.io.BufferedReader;
@@ -12,6 +17,12 @@ public class BuilderPlateau {
 	private int notreMap[][];
 	private int width;
 	private int height;
+	
+	/*
+	 * Cette méthode est utilisée pour lire notre fichier. Elle prend en paramètre un url.
+	 * A l'aide d'un bufferedreader, on lit chaque ligne de notre fichier en supprimant la virgule.
+	 * Pour chaque entier lu, on le stocke dans un tableau d'entiers.
+	 */
 	
 	public void lireFichier(String url) {
 		FileInputStream fis = null;
@@ -77,17 +88,23 @@ public class BuilderPlateau {
 		this.notreMap =  returntableau;
 	}
 
+	/*
+	 * Cette méthode renvoie un tableau d'entiers à une dimension d'une ligne d'un fichier
+	 */
+	
 	public int[] stringTableCaster(String[] tab) {
 		int[] res = new int[tab.length];
+		
 		for (int i = 0; i < tab.length; i++) {
 			res[i] = Integer.parseInt(tab[i]);
 		}
 		return res;
 	}
-
+	
 	public void affichePlateau(int[][] tab) {
 		for (int i = 0; i < tab.length; i++) {
 			System.out.print("{");
+			
 			for (int j = 0; j < tab[i].length; j++) {
 				System.out.print(tab[i][j]);
 				
@@ -98,7 +115,7 @@ public class BuilderPlateau {
 			System.out.println("},");
 		}
 	}
-
+	
 	public int getWidth() {
 		return this.width;
 	}

@@ -1,32 +1,25 @@
 package modele;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-
 public class Personnage {
 	
-	private DoubleProperty coordX;
-	private DoubleProperty coordY;
+	private int pv, ptAtk, ptDef;
+	private Inventaire inv;
+	private Coordonnees position;
 	
 	public Personnage() {
-		this.coordX = new SimpleDoubleProperty(250);
-		this.coordY = new SimpleDoubleProperty(270);
+		this.position = new Coordonnees();
 	}
 	
-	public void setCoordX(int x) {
-		this.coordX.setValue(x);
+	public Personnage(double x, double y) {
+		this.position = new Coordonnees(x,y);
 	}
 	
-	public void setCoordY(int y) {
-		this.coordY.setValue(y);
+	public Coordonnees getPosition() {
+		return this.position;
 	}
 	
-	public DoubleProperty getCoordX() {
-		return this.coordX;
+	public void setPosition(double x, double y) {
+		this.position.setCoordX(x);
+		this.position.setCoordY(y);
 	}
-	
-	public DoubleProperty getCoordY() {
-		return this.coordY;
-	}
-	
 }
