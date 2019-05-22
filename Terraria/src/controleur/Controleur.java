@@ -1,33 +1,25 @@
 package controleur;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import vue.VueJoueur;
 import vue.VuePlateau;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.TilePane;
-import javafx.util.Duration;
 import modele.Personnage;
 import modele.Plateau;
 
 public class Controleur implements Initializable{
 
-	private VuePlateau vuePlateau = new VuePlateau();
-	private Personnage player = new Personnage();
 	private Plateau plateau;
-
-	private ImageView personnage;
-	private Timeline gameloop;
+	private Personnage player;
+	private VuePlateau vuePlateau;
+	private VueJoueur vueJoueur;
 
 	@FXML
 	private Pane paneJeu;
@@ -39,21 +31,14 @@ public class Controleur implements Initializable{
 	}
 
 	private void initialiserJoueur() {
-		File img = new File("Ressources/Sprites/Personnage/player_right.png");
-		Image persoVue = new Image(img.toURI().toString());
-		personnage = new ImageView(persoVue);
-		this.paneJeu.getChildren().add(personnage);
+		this.paneJeu.getChildren().add(this.vueJoueur.getPersonnage());
 		
-		this.personnage.layoutXProperty().bind(player.getPosition().getCoordX());
-		this.personnage.layoutYProperty().bind(player.getPosition().getCoordY());
+		this.vueJoueur.getPersonnage().translateXProperty().bind(player.getPosition().getCoordX());
+		this.vueJoueur.getPersonnage().translateYProperty().bind(player.getPosition().getCoordY());
 	}
 
-	private void initialiserDeplacement() {
-
-		gameloop = new Timeline();
-		gameloop.setCycleCount(Timeline.INDEFINITE);		
-
-		personnage.setOnKeyPressed(new EventHandler<KeyEvent>() {
+	private void deplacementPersonnage() {
+		this.vueJoueur.getPersonnage().setOnKeyPressed(new EventHandler<KeyEvent>() {
 
 			@Override
 			public void handle(KeyEvent event) {
@@ -65,30 +50,33 @@ public class Controleur implements Initializable{
 	@Override
 	public void initialize(URL location,ResourceBundle resources) {
 		this.plateau = new Plateau();
+		this.player = new Personnage();
+		this.vuePlateau = new VuePlateau();
+		this.vueJoueur = new VueJoueur();
 
 		initialiserMap();
 		initialiserJoueur();
-		initialiserDeplacement();
-		gameloop.play();
+		deplacementPersonnage();
 	}
 
 	@FXML
 	void clavier(KeyEvent event) {
-
-		if (event.getCode() == KeyCode.Q) {
-			player.setPosition(player.getPosition().getCoordX().getValue() - 100, player.getPosition().getCoordY().getValue());
+		if (event.getCode() == KeyCode.Q || event.getCode() == KeyCode.LEFT) {
+			player.setPosition(player.getPosition().getCoordX().getValue() - 5, player.getPosition().getCoordY().getValue());
+			this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueGauche());
 		}
 
-		if (event.getCode() == KeyCode.D) {
-			player.setPosition(player.getPosition().getCoordX().getValue() + 100, player.getPosition().getCoordY().getValue());
+		if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
+			player.setPosition(player.getPosition().getCoordX().getValue() + 5, player.getPosition().getCoordY().getValue());
+			this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueDroite());
 		}
 
-		if (event.getCode() == KeyCode.Z) {
-			player.setPosition(player.getPosition().getCoordX().getValue(), player.getPosition().getCoordY().getValue() - 100);
+		if (event.getCode() == KeyCode.Z || event.getCode() == KeyCode.UP) {
+			player.setPosition(player.getPosition().getCoordX().getValue(), player.getPosition().getCoordY().getValue() - 5);
 		}
 
-		if (event.getCode() == KeyCode.S) {
-			player.setPosition(player.getPosition().getCoordX().getValue(), player.getPosition().getCoordY().getValue() + 100);
+		if (event.getCode() == KeyCode.S || event.getCode() == KeyCode.DOWN) {
+			player.setPosition(player.getPosition().getCoordX().getValue(), player.getPosition().getCoordY().getValue() + 5);
 		}
 	}
 }
