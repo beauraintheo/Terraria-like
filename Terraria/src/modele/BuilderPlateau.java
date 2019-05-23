@@ -78,14 +78,7 @@ public class BuilderPlateau {
 				}
 			}
 		}
-		
-		int[][] returntableau = new int[this.width][this.height];
-		for (int i = 0; i < returntableau.length - 1; i++) {
-			for (int j = 0; j < returntableau[i].length; j++) {
-				returntableau[i][j] = plateau[j][i];
-			}
-		}
-		this.notreMap =  returntableau;
+		this.notreMap =  plateau;
 	}
 
 	/*
@@ -108,7 +101,7 @@ public class BuilderPlateau {
 			for (int j = 0; j < tab[i].length; j++) {
 				System.out.print(tab[i][j]);
 				
-				if (j < tab.length-1) {
+				if (j < tab.length - 1) {
 					System.out.print(",");
 				}
 			}

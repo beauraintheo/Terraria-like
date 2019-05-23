@@ -1,53 +1,38 @@
 package modele;
 
 public class Personnage {
-	
-	private int pv, ptAtk, ptDef;
+
 	private Coordonnees position;
-	
+
 	public Personnage() {
 		this.position = new Coordonnees();
 	}
-	
-	public Personnage(double x, double y) {
-		this.position = new Coordonnees(x,y);
+
+	public Personnage(int x, int y) {
+		this.position = new Coordonnees(x, y);
 	}
-	
+
 	public Coordonnees getPosition() {
 		return this.position;
 	}
-	
-	public void setPosition(double x, double y) {
+
+	public void setPosition(int x, int y) {
 		this.position.setCoordX(x);
 		this.position.setCoordY(y);
 	}
 
-	public int attaquer(Personnage p) {
-		
-		return this.ptAtk;
-	}
-	
-	public int getPv() {
-		return pv;
+	public void deplacementGauche(int[][] plateau) {
+		if (this.getPosition().casePlateau(plateau) == 0) {
+			this.setPosition(this.getPosition().getCoordX().getValue() - 16, this.getPosition().getCoordY().getValue());
+			System.out.println(this.getPosition().casePlateau(plateau));
+		}
 	}
 
-	public void setPv(int pv) {
-		this.pv = pv;
-	}
-
-	public int getPtAtk() {
-		return ptAtk;
-	}
-
-	public void setPtAtk(int ptAtk) {
-		this.ptAtk = ptAtk;
-	}
-
-	public int getPtDef() {
-		return ptDef;
-	}
-
-	public void setPtDef(int ptDef) {
-		this.ptDef = ptDef;
+	public void deplacementDroite(int[][] plateau) {
+		if (this.getPosition().casePlateau(plateau) == 0) {
+			
+			this.setPosition(this.getPosition().getCoordX().getValue() + 16, this.getPosition().getCoordY().getValue());
+			System.out.println(this.getPosition().casePlateau(plateau));
+		}
 	}
 }

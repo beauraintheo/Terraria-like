@@ -32,7 +32,7 @@ public class Controleur implements Initializable{
 
 	private void initialiserJoueur() {
 		this.paneJeu.getChildren().add(this.vueJoueur.getPersonnage());
-		
+
 		this.vueJoueur.getPersonnage().translateXProperty().bind(player.getPosition().getCoordX());
 		this.vueJoueur.getPersonnage().translateYProperty().bind(player.getPosition().getCoordY());
 	}
@@ -46,7 +46,7 @@ public class Controleur implements Initializable{
 			}
 		});
 	}
-	
+
 	@Override
 	public void initialize(URL location,ResourceBundle resources) {
 		this.plateau = new Plateau();
@@ -60,23 +60,23 @@ public class Controleur implements Initializable{
 	}
 
 	@FXML
-	void clavier(KeyEvent event) {
+	void clavier(KeyEvent event) {			
 		if (event.getCode() == KeyCode.Q || event.getCode() == KeyCode.LEFT) {
-			player.setPosition(player.getPosition().getCoordX().getValue() - 5, player.getPosition().getCoordY().getValue());
+			player.deplacementGauche(plateau.getPlateau());
 			this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueGauche());
 		}
 
 		if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
-			player.setPosition(player.getPosition().getCoordX().getValue() + 5, player.getPosition().getCoordY().getValue());
+			player.deplacementDroite(plateau.getPlateau());
 			this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueDroite());
 		}
 
 		if (event.getCode() == KeyCode.Z || event.getCode() == KeyCode.UP) {
-			player.setPosition(player.getPosition().getCoordX().getValue(), player.getPosition().getCoordY().getValue() - 5);
+			player.setPosition(player.getPosition().getCoordX().getValue(), player.getPosition().getCoordY().getValue() - 16);
 		}
 
 		if (event.getCode() == KeyCode.S || event.getCode() == KeyCode.DOWN) {
-			player.setPosition(player.getPosition().getCoordX().getValue(), player.getPosition().getCoordY().getValue() + 5);
+			player.setPosition(player.getPosition().getCoordX().getValue(), player.getPosition().getCoordY().getValue() + 16);
 		}
 	}
 }

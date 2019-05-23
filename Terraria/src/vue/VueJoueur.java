@@ -14,18 +14,18 @@ public class VueJoueur {
 		imageG = gauche();
 		imageD = droite();
 		personnage = new ImageView(imageD);
-		personnage.setFitHeight(50);
-		personnage.setFitWidth(50);
+		personnage.setFitHeight(16);
+		personnage.setFitWidth(16);
 	}
 	
 	public Image gauche() {
-		File imgGauche = new File("Ressources/Sprites/Personnage/voltali-gauche.gif");
+		File imgGauche = new File("Ressources/Sprites/Personnage/pero-gauche.png");
 		Image persoVueGauche = new Image(imgGauche.toURI().toString());
 		return persoVueGauche;
 	}
 
 	public Image droite() {
-		File imgDroit = new File("Ressources/Sprites/Personnage/voltali-droite.gif");
+		File imgDroit = new File("Ressources/Sprites/Personnage/pero-droite.png");
 		Image persoVueDroit = new Image(imgDroit.toURI().toString());
 		return persoVueDroit;
 	}

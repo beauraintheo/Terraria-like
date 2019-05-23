@@ -31,7 +31,7 @@ public class VuePlateau {
 	public void creeVueMap(Plateau plateau) {
 		for (int x = 0; x < plateau.getPlateau().length - 1; x++) {
 			for (int y = 0; y < plateau.getPlateau()[x].length; y++) {
-				int casePlateau = plateau.getPlateau()[x][y];
+				int casePlateau = plateau.getPlateau()[y][x];
 				ImageView img = decoupage(casePlateau);
 				this.tilePaneMap.getChildren().add(img);
 			}	

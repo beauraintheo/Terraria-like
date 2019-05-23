@@ -6,38 +6,42 @@
 
 package modele;
 
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 public class Coordonnees {
 	
-	private DoubleProperty coordX;
-	private DoubleProperty coordY;
+	private IntegerProperty coordX;
+	private IntegerProperty coordY;
 	
 	public Coordonnees() {
-		this.coordX = new SimpleDoubleProperty(250);
-		this.coordY = new SimpleDoubleProperty(270);
+		this.coordX = new SimpleIntegerProperty(400);
+		this.coordY = new SimpleIntegerProperty(448);
 	}
 	
-	public Coordonnees(double x, double y) {
-		this.coordX = new SimpleDoubleProperty(x);
-		this.coordY = new SimpleDoubleProperty(y);
+	public Coordonnees(int x, int y) {
+		this.coordX = new SimpleIntegerProperty(x);
+		this.coordY = new SimpleIntegerProperty(y);
 	}
 	
-	public void setCoordX(double x) {
+	public int casePlateau(int[][] plateau) {
+		return plateau[this.getCoordY().getValue() / 16][this.getCoordX().getValue() / 16];
+	}
+	
+	
+	public void setCoordX(int x) {
 		this.coordX.setValue(x);
 	}
 	
-	public void setCoordY(double y) {
+	public void setCoordY(int y) {
 		this.coordY.setValue(y);
 	}
 	
-	public DoubleProperty getCoordX() {
+	public IntegerProperty getCoordX() {
 		return this.coordX;
 	}
 	
-	public DoubleProperty getCoordY() {
+	public IntegerProperty getCoordY() {
 		return this.coordY;
 	}
-	
 }
