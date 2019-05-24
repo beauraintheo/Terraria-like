@@ -5,12 +5,15 @@ import java.util.ResourceBundle;
 
 import vue.VueJoueur;
 import vue.VuePlateau;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 import modele.Personnage;
 import modele.Plateau;
 
@@ -23,6 +26,8 @@ public class Controleur implements Initializable{
 
 	@FXML
 	private Pane paneJeu;
+	private Timeline gameloop;
+	private KeyCode touche ;
 
 	private void initialiserMap() {
 		this.vuePlateau.proprieteTilePane();
@@ -53,13 +58,14 @@ public class Controleur implements Initializable{
 		this.player = new Personnage();
 		this.vuePlateau = new VuePlateau();
 		this.vueJoueur = new VueJoueur();
-
 		initialiserMap();
 		initialiserJoueur();
-		deplacementPersonnage();
+		initAnimation();
+
+		gameloop.play();
 	}
 
-	@FXML
+	/*@FXML
 	void clavier(KeyEvent event) {			
 		if (event.getCode() == KeyCode.Q || event.getCode() == KeyCode.LEFT) {
 			player.deplacementGauche(plateau.getPlateau());
@@ -72,11 +78,69 @@ public class Controleur implements Initializable{
 		}
 
 		if (event.getCode() == KeyCode.Z || event.getCode() == KeyCode.UP) {
-			player.setPosition(player.getPosition().getCoordX().getValue(), player.getPosition().getCoordY().getValue() - 16);
+			player.sauter(plateau.getPlateau());
+			this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueSaut());
 		}
 
 		if (event.getCode() == KeyCode.S || event.getCode() == KeyCode.DOWN) {
 			player.gravité(plateau.getPlateau());
+
+			if (player.détectionSol(plateau.getPlateau())) {
+				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueTombe());
+			}
+
+			else {
+				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueChute());
+			}
+		}
+		player.getPosition().afficheCoordonnees();
+	}*/
+
+	private void initAnimation() {
+		gameloop = new Timeline();
+		gameloop.setCycleCount(Timeline.INDEFINITE);
+
+		KeyFrame kf = new KeyFrame(Duration.seconds(0.030), 
+								  (ev -> { this.deplacement(); })
+								  );
+		gameloop.getKeyFrames().add(kf);
+	}
+
+	@FXML
+	void clavier(KeyEvent event) {
+		this.touche = event.getCode();
+	}
+
+	@FXML
+	void relacheTouche(KeyEvent event) {
+		this.touche = null;
+	}
+
+	private void deplacement() {
+		if (touche != null) {
+			if (touche == KeyCode.Q || touche == KeyCode.LEFT) {
+				player.deplacementGauche(plateau.getPlateau());
+				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueGauche());
+			}
+			if (touche == KeyCode.D || touche == KeyCode.RIGHT) {
+				player.deplacementDroite(plateau.getPlateau());
+				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueDroite());
+			}
+			if (touche == KeyCode.Z || touche == KeyCode.UP) {
+				player.sauter(plateau.getPlateau());
+				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueSaut());
+			}
+			if (touche == KeyCode.S || touche == KeyCode.DOWN) {
+				player.gravité(plateau.getPlateau());
+
+				if (player.détectionSol(plateau.getPlateau())) {
+					this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueTombe());
+				}
+
+				else {
+					this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueChute());
+				}
+			}
 		}
 	}
 }

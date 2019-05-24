@@ -7,12 +7,16 @@ import javafx.scene.image.ImageView;
 
 public class VueJoueur {
 	
-	private Image imageG, imageD;
+	private Image imageG, imageD, imageH, imageB, imageT;
 	private ImageView personnage;
 	
 	public VueJoueur() {
 		imageG = gauche();
 		imageD = droite();
+		imageH = sauter();
+		imageB = chute();
+		imageT = tombe();
+		
 		personnage = new ImageView(imageD);
 		personnage.setFitHeight(16);
 		personnage.setFitWidth(16);
@@ -30,12 +34,42 @@ public class VueJoueur {
 		return persoVueDroit;
 	}
 	
+	public Image chute() {
+		File imgChute = new File("Ressources/Sprites/Personnage/pero-chute.png");
+		Image persoVueChute = new Image(imgChute.toURI().toString());
+		return persoVueChute;
+	}
+	
+	public Image sauter() {
+		File imgSaut = new File("Ressources/Sprites/Personnage/pero-saut.png");
+		Image persoVueSaut = new Image(imgSaut.toURI().toString());
+		return persoVueSaut;
+	}
+	
+	public Image tombe() {
+		File imgTombe = new File("Ressources/Sprites/Personnage/pero-tombe.png");
+		Image persoVueTombe = new Image(imgTombe.toURI().toString());
+		return persoVueTombe;
+	}
+	
 	public Image getVueGauche() {
 		return this.imageG;
 	}
 	
 	public Image getVueDroite() {
 		return this.imageD;
+	}
+	
+	public Image getVueSaut() {
+		return this.imageH;
+	}
+	
+	public Image getVueChute() {
+		return this.imageB;
+	}
+	
+	public Image getVueTombe() {
+		return this.imageT;
 	}
 	
 	public ImageView getPersonnage() {
