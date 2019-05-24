@@ -65,37 +65,6 @@ public class Controleur implements Initializable{
 		gameloop.play();
 	}
 
-	/*@FXML
-	void clavier(KeyEvent event) {			
-		if (event.getCode() == KeyCode.Q || event.getCode() == KeyCode.LEFT) {
-			player.deplacementGauche(plateau.getPlateau());
-			this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueGauche());
-		}
-
-		if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.RIGHT) {
-			player.deplacementDroite(plateau.getPlateau());
-			this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueDroite());
-		}
-
-		if (event.getCode() == KeyCode.Z || event.getCode() == KeyCode.UP) {
-			player.sauter(plateau.getPlateau());
-			this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueSaut());
-		}
-
-		if (event.getCode() == KeyCode.S || event.getCode() == KeyCode.DOWN) {
-			player.gravité(plateau.getPlateau());
-
-			if (player.détectionSol(plateau.getPlateau())) {
-				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueTombe());
-			}
-
-			else {
-				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueChute());
-			}
-		}
-		player.getPosition().afficheCoordonnees();
-	}*/
-
 	private void initAnimation() {
 		gameloop = new Timeline();
 		gameloop.setCycleCount(Timeline.INDEFINITE);
@@ -122,14 +91,17 @@ public class Controleur implements Initializable{
 				player.deplacementGauche(plateau.getPlateau());
 				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueGauche());
 			}
+			
 			if (touche == KeyCode.D || touche == KeyCode.RIGHT) {
 				player.deplacementDroite(plateau.getPlateau());
 				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueDroite());
 			}
+			
 			if (touche == KeyCode.Z || touche == KeyCode.UP) {
 				player.sauter(plateau.getPlateau());
 				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueSaut());
 			}
+			
 			if (touche == KeyCode.S || touche == KeyCode.DOWN) {
 				player.gravité(plateau.getPlateau());
 
