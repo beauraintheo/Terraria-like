@@ -76,7 +76,7 @@ public class Controleur implements Initializable{
 		}
 
 		if (event.getCode() == KeyCode.S || event.getCode() == KeyCode.DOWN) {
-			player.setPosition(player.getPosition().getCoordX().getValue(), player.getPosition().getCoordY().getValue() + 16);
+			player.gravité(plateau.getPlateau());
 		}
 	}
 }
