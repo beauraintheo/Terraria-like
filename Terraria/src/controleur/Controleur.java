@@ -24,6 +24,9 @@ public class Controleur implements Initializable{
 	private VuePlateau vuePlateau;
 	private VueJoueur vueJoueur;
 
+	private int timer;
+	private int toucheAppuyé;
+
 	@FXML
 	private Pane paneJeu;
 	private Timeline gameloop;
@@ -42,16 +45,6 @@ public class Controleur implements Initializable{
 		this.vueJoueur.getPersonnage().translateYProperty().bind(player.getPosition().getCoordY());
 	}
 
-	private void deplacementPersonnage() {
-		this.vueJoueur.getPersonnage().setOnKeyPressed(new EventHandler<KeyEvent>() {
-
-			@Override
-			public void handle(KeyEvent event) {
-				clavier(event);
-			}
-		});
-	}
-
 	@Override
 	public void initialize(URL location,ResourceBundle resources) {
 		this.plateau = new Plateau();
@@ -68,10 +61,31 @@ public class Controleur implements Initializable{
 	private void initAnimation() {
 		gameloop = new Timeline();
 		gameloop.setCycleCount(Timeline.INDEFINITE);
+		timer = 0;
 
 		KeyFrame kf = new KeyFrame(Duration.seconds(0.030), 
-								  (ev -> { this.deplacement(); })
-								  );
+				(ev -> { 
+					this.deplacement();
+
+					// Gravité
+
+					if (timer % 5 == 0) {
+						if (player.détectionSol(plateau.getPlateau())) {
+							player.tomber(plateau.getPlateau());
+
+							if (!player.détectionSol(plateau.getPlateau())) {
+								this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueChute());
+							}
+
+							else {
+								this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueTombe());
+							}
+						}
+						timer = 0;
+					}
+					timer++;
+				})
+				);
 		gameloop.getKeyFrames().add(kf);
 	}
 
@@ -86,32 +100,22 @@ public class Controleur implements Initializable{
 	}
 
 	private void deplacement() {
+		toucheAppuyé = 0;
+
 		if (touche != null) {
 			if (touche == KeyCode.Q || touche == KeyCode.LEFT) {
 				player.deplacementGauche(plateau.getPlateau());
 				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueGauche());
 			}
-			
+
 			if (touche == KeyCode.D || touche == KeyCode.RIGHT) {
 				player.deplacementDroite(plateau.getPlateau());
 				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueDroite());
 			}
-			
+
 			if (touche == KeyCode.Z || touche == KeyCode.UP) {
 				player.sauter(plateau.getPlateau());
 				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueSaut());
-			}
-			
-			if (touche == KeyCode.S || touche == KeyCode.DOWN) {
-				player.gravité(plateau.getPlateau());
-
-				if (player.détectionSol(plateau.getPlateau())) {
-					this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueTombe());
-				}
-
-				else {
-					this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueChute());
-				}
 			}
 		}
 	}

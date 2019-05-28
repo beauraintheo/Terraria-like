@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 public class VueJoueur {
 	
 	private Image imageG, imageD, imageH, imageB, imageT;
-	private ImageView personnage;
+	private ImageView imgPersonnage;
 	
 	public VueJoueur() {
 		imageG = gauche();
@@ -17,9 +17,9 @@ public class VueJoueur {
 		imageB = chute();
 		imageT = tombe();
 		
-		personnage = new ImageView(imageD);
-		personnage.setFitHeight(16);
-		personnage.setFitWidth(16);
+		imgPersonnage = new ImageView(imageD);
+		imgPersonnage.setFitHeight(16);
+		imgPersonnage.setFitWidth(16);
 	}
 	
 	public Image gauche() {
@@ -73,6 +73,6 @@ public class VueJoueur {
 	}
 	
 	public ImageView getPersonnage() {
-		return this.personnage;
+		return this.imgPersonnage;
 	}
 }
