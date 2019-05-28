@@ -28,9 +28,7 @@ public class Coordonnees {
 		System.out.println("x : " + this.getCoordX().getValue() + " y : " + this.getCoordY().getValue());
 	}
 	
-	public int casePlateau(int[][] plateau) {
-		return plateau[this.getCoordY().getValue() / 16][this.getCoordX().getValue() / 16];
-	}
+
 	
 	public void setCoord(int x, int y) {
 		this.coordX.setValue(x);

@@ -33,8 +33,10 @@ public class Controleur implements Initializable{
 	private KeyCode touche ;
 
 	private void initialiserMap() {
+		this.vuePlateau.proprieteFond();
 		this.vuePlateau.proprieteTilePane();
 		this.vuePlateau.creeVueMap(plateau);
+		this.paneJeu.getChildren().add(this.vuePlateau.getFond());
 		this.paneJeu.getChildren().add(this.vuePlateau.getTilePane());
 	}
 
@@ -48,7 +50,8 @@ public class Controleur implements Initializable{
 	@Override
 	public void initialize(URL location,ResourceBundle resources) {
 		this.plateau = new Plateau();
-		this.player = new Personnage();
+		this.player = new Personnage(plateau);
+		
 		this.vuePlateau = new VuePlateau();
 		this.vueJoueur = new VueJoueur();
 		initialiserMap();
@@ -70,10 +73,10 @@ public class Controleur implements Initializable{
 					// Gravité
 
 					if (timer % 5 == 0) {
-						if (player.détectionSol(plateau.getPlateau())) {
-							player.tomber(plateau.getPlateau());
+						if (player.détectionSol()) {
+							player.tomber();
 
-							if (!player.détectionSol(plateau.getPlateau())) {
+							if (!player.détectionSol()) {
 								this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueChute());
 							}
 
@@ -104,17 +107,17 @@ public class Controleur implements Initializable{
 
 		if (touche != null) {
 			if (touche == KeyCode.Q || touche == KeyCode.LEFT) {
-				player.deplacementGauche(plateau.getPlateau());
+				player.deplacementGauche();
 				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueGauche());
 			}
 
 			if (touche == KeyCode.D || touche == KeyCode.RIGHT) {
-				player.deplacementDroite(plateau.getPlateau());
+				player.deplacementDroite();
 				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueDroite());
 			}
 
 			if (touche == KeyCode.Z || touche == KeyCode.UP) {
-				player.sauter(plateau.getPlateau());
+				player.sauter();
 				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueSaut());
 			}
 		}

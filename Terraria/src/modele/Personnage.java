@@ -3,9 +3,11 @@ package modele;
 public class Personnage {
 
 	private Coordonnees position;
-
-	public Personnage() {
+	private Plateau plateau;
+	
+	public Personnage(Plateau plateau) {
 		this.position = new Coordonnees();
+		this.plateau = plateau;
 	}
 
 	public Personnage(int x, int y) {
@@ -28,9 +30,10 @@ public class Personnage {
 		this.position.setCoordY(y);
 	}
 
-	public void deplacementGauche(int[][] plateau) {
+	
+	public void deplacementGauche() {
 		if (this.getPositionPlus(- 16, 0).getCoordX().getValue() >= 0) {
-			if (this.getPositionPlus(-16, 0).casePlateau(plateau) == 0) {
+			if (this.plateau.casePlateau(this.getPositionPlus(-16, 0)) == 0) {
 				this.setPosition(this.getPosition().getCoordX().getValue() - 16, this.getPosition().getCoordY().getValue());
 			}
 		}
@@ -40,9 +43,9 @@ public class Personnage {
 		}
 	}
 		
-	public void deplacementDroite(int[][] plateau) {
+	public void deplacementDroite() {
 		if (this.getPositionPlus(16, 0).getCoordX().getValue() <= 1248) {
-			if (this.getPositionPlus(16, 0).casePlateau(plateau) == 0) {
+			if (this.plateau.casePlateau(this.getPositionPlus(16, 0)) == 0) {
 				this.setPosition(this.getPosition().getCoordX().getValue() + 16, this.getPosition().getCoordY().getValue());
 			}
 		}
@@ -52,35 +55,36 @@ public class Personnage {
 		}
 	}
 
-	public void sauter(int[][] plateau) {	
+	public void sauter() {	
 		if (this.getPositionPlus(0, - 16).getCoordY().getValue() >= 0) {
-			if (this.getPositionPlus(0, - 16).casePlateau(plateau) == 0) {
+			if (this.plateau.casePlateau(this.getPositionPlus(0, -16)) == 0) {
 				this.setPosition(this.getPosition().getCoordX().getValue(), this.getPosition().getCoordY().getValue() - 16);
 			}
 		}
 	}
 
-	public void tomber(int[][] plateau) {
+	public void tomber() {
 		if (this.getPositionPlus(0, 16).getCoordY().getValue() <= 1248) {
-			if (this.getPositionPlus(0, 16).casePlateau(plateau) == 0) {
+			if (this.plateau.casePlateau(this.getPositionPlus(0, 16)) == 0) {
 				this.setPosition(this.getPosition().getCoordX().getValue(), this.getPosition().getCoordY().getValue() + 16);
 			}
 		}
 	}
 	
-	public boolean détectionSol(int[][] plateau) {
-		if (this.getPositionPlus(0, 16).casePlateau(plateau) == 0) {
+	public boolean détectionSol() {
+		//if (this.getPositionPlus(0, 16).casePlateau(plateau) == 0) {
+		if (this.plateau.casePlateau(this.getPositionPlus(0, 16)) == 0) {
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean détectionPlafond(int[][] plateau) {
+	/*public boolean détectionPlafond(int[][] plateau) {
 		if (this.getPositionPlus(0, - 16).casePlateau(plateau) == 0) {
 			return true;
 		}
 		return false;
-	}
+	}*/
 	
 	/*public void tombe(int[][] plateau) {
 		if (this.getPositionPlus(0, 16).casePlateau(plateau) == 0) {
