@@ -25,11 +25,7 @@ public class Coordonnees {
 	}
 	
 	public void afficheCoordonnees() {
-		System.out.println("x : " + this.getCoordX().getValue() + " y : " + this.getCoordY().getValue());
-	}
-	
-	public int casePlateau(int[][] plateau) {
-		return plateau[this.getCoordY().getValue() / 16][this.getCoordX().getValue() / 16];
+		System.out.println("x : " + this.getCoordX() + " y : " + this.getCoordY());
 	}
 	
 	public void setCoord(int x, int y) {
@@ -45,11 +41,19 @@ public class Coordonnees {
 		this.coordY.setValue(y);
 	}
 	
-	public IntegerProperty getCoordX() {
+	public IntegerProperty coordXProperty() {
 		return this.coordX;
 	}
 	
-	public IntegerProperty getCoordY() {
+	public IntegerProperty coordYProperty() {
 		return this.coordY;
+	}
+	
+	public int getCoordX() {
+		return this.coordX.getValue();
+	}
+	
+	public int getCoordY() {
+		return this.coordY.getValue();
 	}
 }

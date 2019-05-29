@@ -18,11 +18,9 @@ public class BuilderPlateau {
 	private int width;
 	private int height;
 	
-	/*
-	 * Cette méthode est utilisée pour lire notre fichier. Elle prend en paramètre un url.
-	 * A l'aide d'un bufferedreader, on lit chaque ligne de notre fichier en supprimant la virgule.
-	 * Pour chaque entier lu, on le stocke dans un tableau d'entiers.
-	 */
+	// Cette méthode est utilisée pour lire notre fichier. Elle prend en paramètre un url.
+	// A l'aide d'un bufferedreader, on lit chaque ligne de notre fichier en supprimant la virgule.
+	// Pour chaque entier lu, on le stocke dans un tableau d'entiers.
 	
 	public void lireFichier(String url) {
 		FileInputStream fis = null;
@@ -80,10 +78,8 @@ public class BuilderPlateau {
 		}
 		this.notreMap =  plateau;
 	}
-
-	/*
-	 * Cette méthode renvoie un tableau d'entiers à une dimension d'une ligne d'un fichier
-	 */
+	
+	//Cette méthode renvoie un tableau d'entiers à une dimension d'une ligne d'un fichier
 	
 	public int[] stringTableCaster(String[] tab) {
 		int[] res = new int[tab.length];
@@ -93,6 +89,8 @@ public class BuilderPlateau {
 		}
 		return res;
 	}
+	
+	// Affiche le plateau pour déboguer
 	
 	public void affichePlateau(int[][] tab) {
 		for (int i = 0; i < tab.length; i++) {
@@ -109,13 +107,6 @@ public class BuilderPlateau {
 		}
 	}
 	
-	public int getWidth() {
-		return this.width;
-	}
-
-	public int getHeight() {
-		return this.height;
-	}
 	
 	public int[][] getPlateau(){
 		return this.notreMap;

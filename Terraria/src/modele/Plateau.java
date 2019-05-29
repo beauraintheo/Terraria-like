@@ -16,7 +16,10 @@ public class Plateau {
 		this.plateau = bp.getPlateau();
 	}
 	
-	//TODO essayer de se débarasser du getPlateau en ayant à la place les méthodes qui vont bien pour répondre aux questions qu'on a à poser au plateau.
+	public int casePlateau(Coordonnees coo) {
+		return this.plateau[coo.getCoordY() / 16][coo.getCoordX() / 16];
+	}
+	
 	public int[][] getPlateau() {
 		return plateau;
 	}

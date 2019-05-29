@@ -7,69 +7,79 @@ import javafx.scene.image.ImageView;
 
 public class VueJoueur {
 	
-	private Image imageG, imageD, imageH, imageB, imageT;
+	private Image imageG, imageD, imageH, imageB, imageDouleur;
 	private ImageView imgPersonnage;
 	
 	public VueJoueur() {
-		imageG = gauche();
-		imageD = droite();
-		imageH = sauter();
-		imageB = chute();
-		imageT = tombe();
+		imageG = chargerImgGauche();
+		imageD = chargerImgDroite();
+		imageH = chargerImgSaut();
+		imageB = chargerImgChute();
+		imageDouleur = chargerImgBobo();
 		
 		imgPersonnage = new ImageView(imageD);
 		imgPersonnage.setFitHeight(16);
 		imgPersonnage.setFitWidth(16);
 	}
 	
-	public Image gauche() {
+	// Méthode pour charger l'image gauche du personnage principal
+	
+	public Image chargerImgGauche() {
 		File imgGauche = new File("Ressources/Sprites/Personnage/pero-gauche.png");
 		Image persoVueGauche = new Image(imgGauche.toURI().toString());
 		return persoVueGauche;
 	}
 
-	public Image droite() {
+	// Méthode pour charger l'image droite du personnage principal
+	
+	public Image chargerImgDroite() {
 		File imgDroit = new File("Ressources/Sprites/Personnage/pero-droite.png");
 		Image persoVueDroit = new Image(imgDroit.toURI().toString());
 		return persoVueDroit;
 	}
+
+	// Méthode pour charger l'image haute du personnage principal
 	
-	public Image chute() {
-		File imgChute = new File("Ressources/Sprites/Personnage/pero-chute.png");
-		Image persoVueChute = new Image(imgChute.toURI().toString());
-		return persoVueChute;
-	}
-	
-	public Image sauter() {
+	public Image chargerImgSaut() {
 		File imgSaut = new File("Ressources/Sprites/Personnage/pero-saut.png");
 		Image persoVueSaut = new Image(imgSaut.toURI().toString());
 		return persoVueSaut;
 	}
 	
-	public Image tombe() {
+	// Méthode pour charger l'image basse du personnage principal
+	
+	public Image chargerImgChute() {
 		File imgTombe = new File("Ressources/Sprites/Personnage/pero-tombe.png");
 		Image persoVueTombe = new Image(imgTombe.toURI().toString());
 		return persoVueTombe;
+	}	
+	
+	// Méthode pour charger l'image quand le personnage se fait mal
+	
+	public Image chargerImgBobo() {
+		File imgChute = new File("Ressources/Sprites/Personnage/pero-bobo.png");
+		Image persoVueChute = new Image(imgChute.toURI().toString());
+		return persoVueChute;
 	}
 	
-	public Image getVueGauche() {
-		return this.imageG;
+	public void tournerAGauche() {
+		this.getPersonnage().setImage(imageG);
 	}
 	
-	public Image getVueDroite() {
-		return this.imageD;
+	public void tournerADroite() {
+		this.getPersonnage().setImage(imageD);
 	}
 	
-	public Image getVueSaut() {
-		return this.imageH;
+	public void monter() {
+		this.getPersonnage().setImage(imageH);
 	}
 	
-	public Image getVueChute() {
-		return this.imageB;
+	public void descendre() {
+		this.getPersonnage().setImage(imageB);
 	}
 	
-	public Image getVueTombe() {
-		return this.imageT;
+	public void chuteViolente() {
+		this.getPersonnage().setImage(imageDouleur);
 	}
 	
 	public ImageView getPersonnage() {

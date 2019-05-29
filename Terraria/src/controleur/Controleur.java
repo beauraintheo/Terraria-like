@@ -7,7 +7,6 @@ import vue.VueJoueur;
 import vue.VuePlateau;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.KeyCode;
@@ -17,7 +16,7 @@ import javafx.util.Duration;
 import modele.Personnage;
 import modele.Plateau;
 
-public class Controleur implements Initializable{
+public class Controleur implements Initializable {
 
 	private Plateau plateau;
 	private Personnage player;
@@ -25,32 +24,37 @@ public class Controleur implements Initializable{
 	private VueJoueur vueJoueur;
 
 	private int timer;
-	private int toucheAppuyé;
+	private int toucheAppuyée;
 
 	@FXML
 	private Pane paneJeu;
 	private Timeline gameloop;
-	private KeyCode touche ;
+	private KeyCode touche;
 
 	private void initialiserMap() {
+		this.vuePlateau.proprieteFond();
 		this.vuePlateau.proprieteTilePane();
 		this.vuePlateau.creeVueMap(plateau);
+		this.paneJeu.getChildren().add(this.vuePlateau.getFond());
 		this.paneJeu.getChildren().add(this.vuePlateau.getTilePane());
 	}
 
 	private void initialiserJoueur() {
 		this.paneJeu.getChildren().add(this.vueJoueur.getPersonnage());
 
-		this.vueJoueur.getPersonnage().translateXProperty().bind(player.getPosition().getCoordX());
-		this.vueJoueur.getPersonnage().translateYProperty().bind(player.getPosition().getCoordY());
+		this.vueJoueur.getPersonnage().translateXProperty().bind(player.getPosition().coordXProperty());
+		this.vueJoueur.getPersonnage().translateYProperty().bind(player.getPosition().coordYProperty());
 	}
 
 	@Override
-	public void initialize(URL location,ResourceBundle resources) {
+	public void initialize(URL location, ResourceBundle resources) {
 		this.plateau = new Plateau();
-		this.player = new Personnage();
+		this.player = new Personnage(plateau);
 		this.vuePlateau = new VuePlateau();
 		this.vueJoueur = new VueJoueur();
+
+		toucheAppuyée = 0;
+
 		initialiserMap();
 		initialiserJoueur();
 		initAnimation();
@@ -63,29 +67,26 @@ public class Controleur implements Initializable{
 		gameloop.setCycleCount(Timeline.INDEFINITE);
 		timer = 0;
 
-		KeyFrame kf = new KeyFrame(Duration.seconds(0.030), 
-				(ev -> { 
-					this.deplacement();
+		KeyFrame kf = new KeyFrame(Duration.seconds(0.030), (ev -> {
+			this.deplacement();
 
-					// Gravité
+			// Gravité
 
-					if (timer % 5 == 0) {
-						if (player.détectionSol(plateau.getPlateau())) {
-							player.tomber(plateau.getPlateau());
+			if (timer % 5 == 0) {
+				if (player.détectionSol()) {
+					player.tomber();
 
-							if (!player.détectionSol(plateau.getPlateau())) {
-								this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueChute());
-							}
-
-							else {
-								this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueTombe());
-							}
-						}
-						timer = 0;
+					if (player.détectionSol()) {
+						this.vueJoueur.descendre();
 					}
-					timer++;
-				})
-				);
+
+					else {
+						this.vueJoueur.chuteViolente();
+					}
+				}
+			}
+			timer++;
+		}));
 		gameloop.getKeyFrames().add(kf);
 	}
 
@@ -100,22 +101,29 @@ public class Controleur implements Initializable{
 	}
 
 	private void deplacement() {
-		toucheAppuyé = 0;
-
 		if (touche != null) {
 			if (touche == KeyCode.Q || touche == KeyCode.LEFT) {
-				player.deplacementGauche(plateau.getPlateau());
-				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueGauche());
+				player.deplacementGauche();
+				this.vueJoueur.tournerAGauche();
 			}
 
 			if (touche == KeyCode.D || touche == KeyCode.RIGHT) {
-				player.deplacementDroite(plateau.getPlateau());
-				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueDroite());
+				player.deplacementDroite();
+				this.vueJoueur.tournerADroite();
 			}
 
 			if (touche == KeyCode.Z || touche == KeyCode.UP) {
-				player.sauter(plateau.getPlateau());
-				this.vueJoueur.getPersonnage().setImage(vueJoueur.getVueSaut());
+				if (toucheAppuyée < 10) {
+					player.sauter();
+					this.vueJoueur.monter();
+					toucheAppuyée++;
+				}
+
+				else {
+					if (!player.détectionSol()) {
+						toucheAppuyée = 0;
+					}
+				}
 			}
 		}
 	}

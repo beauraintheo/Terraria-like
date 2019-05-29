@@ -1,3 +1,8 @@
+/*
+ * Main.java
+ * Cette classe lance notre programme.
+ */
+
 package app;
 
 import javafx.application.Application;
@@ -29,3 +34,5 @@ public class Main extends Application {
 		launch(args);
 	}
 }
+
+// ©Terraria - BEAURAIN Théo - UTKIN Liam - PAPROCKI Alexandre
