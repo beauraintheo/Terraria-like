@@ -10,10 +10,6 @@ public class Personnage {
 		this.plateau = plateau;
 	}
 
-	/*
-	 * public Personnage(int x, int y) { this.position = new Coordonnees(x, y); }
-	 */
-
 	public Coordonnees getPosition() {
 		return this.position;
 	}
@@ -74,7 +70,7 @@ public class Personnage {
 		}
 	}
 
-	public boolean détectionSol() {
+	public boolean detectionVide() {
 		if (this.plateau.casePlateau(this.getPositionPlus(0, 16)) == 0) {
 			return true;
 		}

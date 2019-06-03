@@ -62,23 +62,23 @@ public class VueJoueur {
 		return persoVueChute;
 	}
 	
-	public void tournerAGauche() {
+	public void orientationGauche() {
 		this.getPersonnage().setImage(imageG);
 	}
 	
-	public void tournerADroite() {
+	public void orientationDroite() {
 		this.getPersonnage().setImage(imageD);
 	}
 	
-	public void monter() {
+	public void orientationHaut() {
 		this.getPersonnage().setImage(imageH);
 	}
 	
-	public void descendre() {
+	public void orientationBas() {
 		this.getPersonnage().setImage(imageB);
 	}
 	
-	public void chuteViolente() {
+	public void orientationBobo() {
 		this.getPersonnage().setImage(imageDouleur);
 	}
 	

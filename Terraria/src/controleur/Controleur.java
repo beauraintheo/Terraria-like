@@ -73,19 +73,21 @@ public class Controleur implements Initializable {
 			// Gravité
 
 			if (timer % 5 == 0) {
-				if (player.détectionSol()) {
+				if (player.detectionVide()) {
 					player.tomber();
 
-					if (player.détectionSol()) {
-						this.vueJoueur.descendre();
+					if (player.detectionVide()) {
+						this.vueJoueur.orientationBas();
 					}
 
 					else {
-						this.vueJoueur.chuteViolente();
+						this.vueJoueur.orientationBobo();
 					}
 				}
 			}
 			timer++;
+			
+			
 		}));
 		gameloop.getKeyFrames().add(kf);
 	}
@@ -104,23 +106,23 @@ public class Controleur implements Initializable {
 		if (touche != null) {
 			if (touche == KeyCode.Q || touche == KeyCode.LEFT) {
 				player.deplacementGauche();
-				this.vueJoueur.tournerAGauche();
+				this.vueJoueur.orientationGauche();
 			}
 
 			if (touche == KeyCode.D || touche == KeyCode.RIGHT) {
 				player.deplacementDroite();
-				this.vueJoueur.tournerADroite();
+				this.vueJoueur.orientationDroite();
 			}
 
 			if (touche == KeyCode.Z || touche == KeyCode.UP) {
 				if (toucheAppuyée < 10) {
 					player.sauter();
-					this.vueJoueur.monter();
+					this.vueJoueur.orientationHaut();
 					toucheAppuyée++;
 				}
 
 				else {
-					if (!player.détectionSol()) {
+					if (!player.detectionVide()) {
 						toucheAppuyée = 0;
 					}
 				}
