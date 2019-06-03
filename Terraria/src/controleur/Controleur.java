@@ -20,12 +20,10 @@ public class Controleur implements Initializable {
 
 	private Plateau plateau;
 	private Personnage player;
-	private Personnage ennemi;
 	private VuePlateau vuePlateau;
 	private VueJoueur vueJoueur;
 
 	private int timer;
-	private int bordTouche;
 	private int toucheAppuyee;
 
 	@FXML
@@ -52,7 +50,6 @@ public class Controleur implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		this.plateau = new Plateau();
 		this.player = new Personnage(plateau, 400, 448);
-		this.ennemi = new Personnage(plateau, 400, 448);
 		this.vuePlateau = new VuePlateau();
 		this.vueJoueur = new VueJoueur();
 
@@ -76,10 +73,10 @@ public class Controleur implements Initializable {
 			// Gravité
 
 			if (timer % 5 == 0) {
-				if (player.detectionVide()) {
+				if (player.detectionSol()) {
 					player.tomber();
 
-					if (player.detectionVide()) {
+					if (player.detectionSol()) {
 						this.vueJoueur.orientationBas();
 					}
 
@@ -89,22 +86,6 @@ public class Controleur implements Initializable {
 				}
 			}
 			timer++;
-			
-			System.out.println(bordTouche);
-			
-			if (bordTouche == 0) {
-				if (player.detectionBlocPlein(-16, 0)) {
-					bordTouche = 1;
-				}
-				player.deplacementGauche();
-			}
-			
-			if (bordTouche == 1) {
-				if (player.detectionBlocPlein(16, 0)) {
-					bordTouche = 0;
-				}
-				player.deplacementDroite();
-			}
 		}));
 		gameloop.getKeyFrames().add(kf);
 	}
@@ -139,7 +120,7 @@ public class Controleur implements Initializable {
 				}
 
 				else {
-					if (!player.detectionVide()) {
+					if (!player.detectionSol()) {
 						toucheAppuyee = 0;
 					}
 				}

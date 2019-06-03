@@ -69,16 +69,16 @@ public class Personnage {
 			}
 		}
 	}
-
-	public boolean detectionVide() {
+	
+	public boolean detectionSol() {
 		if (this.plateau.casePlateau(this.getPositionPlus(0, 16)) == 0) {
 			return true;
 		}
 		return false;
 	}
 	
-	public boolean detectionBlocPlein(int vitesseX, int vitesseY) {
-		if (this.plateau.casePlateau(getPositionPlus(vitesseX, vitesseY)) == 0) {
+	public boolean detectionBlocVide(int vitesseX, int vitesseY) {
+		if (this.plateau.casePlateau(this.getPositionPlus(vitesseX, vitesseY)) == 0) {
 			return false;
 		}
 		return true;
