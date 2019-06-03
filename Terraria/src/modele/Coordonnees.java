@@ -14,11 +14,6 @@ public class Coordonnees {
 	private IntegerProperty coordX;
 	private IntegerProperty coordY;
 	
-	public Coordonnees() {
-		this.coordX = new SimpleIntegerProperty(400);
-		this.coordY = new SimpleIntegerProperty(448);
-	}
-	
 	public Coordonnees(int x, int y) {
 		this.coordX = new SimpleIntegerProperty(x);
 		this.coordY = new SimpleIntegerProperty(y);

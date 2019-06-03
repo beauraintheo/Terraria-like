@@ -5,8 +5,8 @@ public class Personnage {
 	private Coordonnees position;
 	private Plateau plateau;
 
-	public Personnage(Plateau plateau) {
-		this.position = new Coordonnees();
+	public Personnage(Plateau plateau, int coordX, int coordY) {
+		this.position = new Coordonnees(coordX, coordY);
 		this.plateau = plateau;
 	}
 
@@ -75,5 +75,12 @@ public class Personnage {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean detectionBlocPlein(int vitesseX, int vitesseY) {
+		if (this.plateau.casePlateau(getPositionPlus(vitesseX, vitesseY)) == 0) {
+			return false;
+		}
+		return true;
 	}
 }

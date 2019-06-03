@@ -20,11 +20,13 @@ public class Controleur implements Initializable {
 
 	private Plateau plateau;
 	private Personnage player;
+	private Personnage ennemi;
 	private VuePlateau vuePlateau;
 	private VueJoueur vueJoueur;
 
 	private int timer;
-	private int toucheAppuyée;
+	private int bordTouche;
+	private int toucheAppuyee;
 
 	@FXML
 	private Pane paneJeu;
@@ -49,11 +51,12 @@ public class Controleur implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.plateau = new Plateau();
-		this.player = new Personnage(plateau);
+		this.player = new Personnage(plateau, 400, 448);
+		this.ennemi = new Personnage(plateau, 400, 448);
 		this.vuePlateau = new VuePlateau();
 		this.vueJoueur = new VueJoueur();
 
-		toucheAppuyée = 0;
+		toucheAppuyee = 0;
 
 		initialiserMap();
 		initialiserJoueur();
@@ -87,7 +90,21 @@ public class Controleur implements Initializable {
 			}
 			timer++;
 			
+			System.out.println(bordTouche);
 			
+			if (bordTouche == 0) {
+				if (player.detectionBlocPlein(-16, 0)) {
+					bordTouche = 1;
+				}
+				player.deplacementGauche();
+			}
+			
+			if (bordTouche == 1) {
+				if (player.detectionBlocPlein(16, 0)) {
+					bordTouche = 0;
+				}
+				player.deplacementDroite();
+			}
 		}));
 		gameloop.getKeyFrames().add(kf);
 	}
@@ -115,15 +132,15 @@ public class Controleur implements Initializable {
 			}
 
 			if (touche == KeyCode.Z || touche == KeyCode.UP) {
-				if (toucheAppuyée < 10) {
+				if (toucheAppuyee < 10) {
 					player.sauter();
 					this.vueJoueur.orientationHaut();
-					toucheAppuyée++;
+					toucheAppuyee++;
 				}
 
 				else {
 					if (!player.detectionVide()) {
-						toucheAppuyée = 0;
+						toucheAppuyee = 0;
 					}
 				}
 			}
