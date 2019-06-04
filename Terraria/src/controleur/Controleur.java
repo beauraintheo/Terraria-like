@@ -139,11 +139,11 @@ public class Controleur implements Initializable {
 		Coordonnees coo = new Coordonnees((int) event.getX(), (int) event.getY());
 		
 		if (event.getButton() == MouseButton.PRIMARY) {
-			this.jeu.getPlateau().casserBloc(coo);
+			this.jeu.getPlateau().casserBloc(coo, player.getPosition());
 		}
 		
 		if (event.getButton() == MouseButton.SECONDARY) {
-			this.jeu.getPlateau().poserBloc(coo);
+			this.jeu.getPlateau().poserBloc(coo, player.getPosition());
 		}
 	}
 
