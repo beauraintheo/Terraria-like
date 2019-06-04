@@ -31,7 +31,7 @@ public class Plateau {
 	}
 
 	public void poserBloc(Coordonnees coo, Coordonnees positionJoueur) {
-		if (creuserBlocDistance1(coo, positionJoueur)) {
+		if (creuserBlocDistance1(coo, positionJoueur) && placerBlocSousPerso(coo, positionJoueur)) {
 			if (this.plateau[coo.getCoordY() / 16][coo.getCoordX() / 16] == 0) {
 				this.plateau[coo.getCoordY() / 16][coo.getCoordX() / 16] = 1;
 				avertirObs(1, coo);
@@ -56,6 +56,13 @@ public class Plateau {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean placerBlocSousPerso(Coordonnees coo, Coordonnees coo2) {
+		if ((coo.getCoordX() / 16) == (coo2.getCoordX() / 16) && (coo.getCoordY() / 16) == (coo2.getCoordY() / 16)) {
+			return false;
+		}
+		return true;
 	}
 
 	public int[][] getPlateau() {
