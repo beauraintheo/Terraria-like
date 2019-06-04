@@ -12,8 +12,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
+import modele.Coordonnees;
 import modele.Ennemi;
 import modele.Jeu;
 import modele.Joueur;
@@ -48,7 +51,7 @@ public class Controleur implements Initializable {
 		this.vueJoueur.translateXProperty().bind(player.getPosition().coordXProperty());
 		this.vueJoueur.translateYProperty().bind(player.getPosition().coordYProperty());
 	}
-	
+
 	private void initialiserEnnemis() {
 		this.paneJeu.getChildren().add(this.vueEnnemi);
 		this.vueEnnemi.translateXProperty().bind(mob.getPosition().coordXProperty());
@@ -63,7 +66,8 @@ public class Controleur implements Initializable {
 		this.vuePlateau = new VuePlateau(this.jeu.getPlateau());
 		this.vueJoueur = new VueJoueur();
 		this.vueEnnemi = new VueEnnemi();
-
+		this.jeu.getPlateau().addObs(this.vuePlateau);
+		
 		toucheAppuyee = 0;
 
 		initialiserMap();
@@ -128,6 +132,19 @@ public class Controleur implements Initializable {
 	@FXML
 	void relacheTouche(KeyEvent event) {
 		this.touche = null;
+	}
+
+	@FXML
+	void actionBloc(MouseEvent event) {
+		Coordonnees coo = new Coordonnees((int) event.getX(), (int) event.getY());
+		
+		if (event.getButton() == MouseButton.PRIMARY) {
+			this.jeu.getPlateau().casserBloc(coo);
+		}
+		
+		if (event.getButton() == MouseButton.SECONDARY) {
+			this.jeu.getPlateau().poserBloc(coo);
+		}
 	}
 
 	private void deplacement() {

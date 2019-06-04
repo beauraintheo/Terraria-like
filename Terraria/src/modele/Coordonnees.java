@@ -11,6 +11,11 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class Coordonnees {
 	
+	@Override
+	public String toString() {
+		return "coordX " + (coordX.getValue() / 16) + ", coordY " + (coordY.getValue() / 16);
+	}
+
 	private IntegerProperty coordX;
 	private IntegerProperty coordY;
 	
