@@ -14,7 +14,7 @@ public class Jeu {
 		this.plateau = new Plateau();
 		this.joueur = new Joueur(plateau, 400, 448);
 		this.ennemis = new ArrayList<Ennemi>();
-		this.ennemis.add(new Ennemi(plateau, 1248, 448));
+		this.ennemis.add(new Ennemi(plateau, 448, 448));
 	}
 
 	public Joueur getJoueur() {
