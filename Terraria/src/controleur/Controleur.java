@@ -40,19 +40,19 @@ public class Controleur implements Initializable {
 
 	private void initialiserMap() {
 		this.paneJeu.getChildren().add(this.vuePlateau.getFond());
-		this.paneJeu.getChildren().add(this.vuePlateau.getTilePane());
+		this.paneJeu.getChildren().add(this.vuePlateau);
 	}
 
 	private void initialiserJoueur() {
-		this.paneJeu.getChildren().add(this.vueJoueur.getPersonnage());
-		this.vueJoueur.getPersonnage().translateXProperty().bind(player.getPosition().coordXProperty());
-		this.vueJoueur.getPersonnage().translateYProperty().bind(player.getPosition().coordYProperty());
+		this.paneJeu.getChildren().add(this.vueJoueur);
+		this.vueJoueur.translateXProperty().bind(player.getPosition().coordXProperty());
+		this.vueJoueur.translateYProperty().bind(player.getPosition().coordYProperty());
 	}
-
+	
 	private void initialiserEnnemis() {
-		this.paneJeu.getChildren().add(this.vueEnnemi.getPersonnage());
-		this.vueEnnemi.getPersonnage().translateXProperty().bind(mob.getPosition().coordXProperty());
-		this.vueEnnemi.getPersonnage().translateYProperty().bind(mob.getPosition().coordYProperty());
+		this.paneJeu.getChildren().add(this.vueEnnemi);
+		this.vueEnnemi.translateXProperty().bind(mob.getPosition().coordXProperty());
+		this.vueEnnemi.translateYProperty().bind(mob.getPosition().coordYProperty());
 	}
 
 	@Override

@@ -24,6 +24,7 @@ public class Main extends Application {
 			root.requestFocus();
 			primaryStage.setTitle("Terraria");
 			primaryStage.initStyle(StageStyle.DECORATED);
+			primaryStage.setFullScreen(true);
 			primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();

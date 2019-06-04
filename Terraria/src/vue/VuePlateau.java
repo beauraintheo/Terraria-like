@@ -10,32 +10,26 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import modele.Plateau;
 
-public class VuePlateau {
+public class VuePlateau extends TilePane implements ObservateurPlateau {
 	
 	private int tilesetX;
 	private int tilesetY;
 	private Image tuiles;
 	private Image imageFond;
-	private TilePane tilePaneMap;
 	private ImageView imageViewFond;
 	
 	public VuePlateau(Plateau plateau) {
 		tuiles = new Image(new File("Ressources/Maps/tileset.png").toURI().toString());
 		imageFond = new Image(new File("Ressources/Maps/jour.png").toURI().toString());
 		imageViewFond = new ImageView();
-		this.tilePaneMap = new TilePane(Orientation.VERTICAL);
+		this.setOrientation(Orientation.VERTICAL);
+		this.setTileAlignment(Pos.CENTER_LEFT);
+		this.setPrefRows(80);
+		this.setMaxWidth(800);
 		proprieteFond();
-		proprieteTilePane();
 		creeVueMap(plateau);
 	}
 	
-	// Méthode pour gérer les dimensions du TilePane
-	
-	public void proprieteTilePane() {
-		this.tilePaneMap.setTileAlignment(Pos.CENTER_LEFT);
-		this.tilePaneMap.setPrefRows(80);
-		this.tilePaneMap.setMaxWidth(800);
-	}
 	
 	public void proprieteFond() {
 		this.imageViewFond.setImage(imageFond);
@@ -50,7 +44,7 @@ public class VuePlateau {
 			for (int y = 0; y < plateau.getPlateau()[x].length; y++) {
 				int casePlateau = plateau.getPlateau()[y][x];
 				ImageView img = decoupage(casePlateau);
-				this.tilePaneMap.getChildren().add(img);
+				this.getChildren().add(img);
 			}	
 		}
 	}
@@ -86,10 +80,6 @@ public class VuePlateau {
 			break;
 		case 3: //Bois
 			this.tilesetX = 52;
-			this.tilesetY = 1;
-			break;
-		case 4: 
-			this.tilesetX = 1;
 			this.tilesetY = 1;
 			break;
 		case 7: //Herbe
@@ -130,11 +120,14 @@ public class VuePlateau {
 		return tilesetY;
 	}
 	
-	public TilePane getTilePane() {
-		return this.tilePaneMap;
-	}
-	
 	public ImageView getFond() {
 		return this.imageViewFond;
+	}
+
+	@Override
+	public void valueChanged(int index, int newValue) {
+		this.getChildren().remove(index);
+		this.getChildren().add(index, decoupage(newValue));
+		
 	}
 }

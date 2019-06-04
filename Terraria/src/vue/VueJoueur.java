@@ -5,10 +5,9 @@ import java.io.File;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class VueJoueur {
+public class VueJoueur extends ImageView {
 	
 	private Image imageG, imageD, imageH, imageB, imageDouleur;
-	private ImageView imgPersonnage;
 	
 	public VueJoueur() {
 		imageG = chargerImgGauche();
@@ -17,9 +16,9 @@ public class VueJoueur {
 		imageB = chargerImgChute();
 		imageDouleur = chargerImgBobo();
 		
-		imgPersonnage = new ImageView(imageD);
-		imgPersonnage.setFitHeight(16);
-		imgPersonnage.setFitWidth(16);
+		this.setImage(imageD);
+		this.setFitHeight(16);
+		this.setFitWidth(16);
 	}
 	
 	// Méthode pour charger l'image gauche du personnage principal
@@ -63,26 +62,23 @@ public class VueJoueur {
 	}
 	
 	public void orientationGauche() {
-		this.getPersonnage().setImage(imageG);
+		this.setImage(imageG);
 	}
 	
 	public void orientationDroite() {
-		this.getPersonnage().setImage(imageD);
+		this.setImage(imageD);
 	}
 	
 	public void orientationHaut() {
-		this.getPersonnage().setImage(imageH);
+		this.setImage(imageH);
 	}
 	
 	public void orientationBas() {
-		this.getPersonnage().setImage(imageB);
+		this.setImage(imageB);
 	}
 	
 	public void orientationBobo() {
-		this.getPersonnage().setImage(imageDouleur);
+		this.setImage(imageDouleur);
 	}
 	
-	public ImageView getPersonnage() {
-		return this.imgPersonnage;
-	}
 }
