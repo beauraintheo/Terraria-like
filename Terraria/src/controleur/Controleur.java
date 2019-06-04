@@ -3,6 +3,7 @@ package controleur;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import vue.VueEnnemi;
 import vue.VueJoueur;
 import vue.VuePlateau;
 import javafx.animation.KeyFrame;
@@ -13,17 +14,23 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
-import modele.Personnage;
-import modele.Plateau;
+import modele.Ennemi;
+import modele.Jeu;
+import modele.Joueur;
 
 public class Controleur implements Initializable {
 
-	private Plateau plateau;
-	private Personnage player;
+	private Jeu jeu;
 	private VuePlateau vuePlateau;
 	private VueJoueur vueJoueur;
+	private VueEnnemi vueEnnemi;
+
+	// Temporaire, à modifier
+	private Joueur player;
+	private Ennemi mob;
 
 	private int timer;
+	private int bordTouche;
 	private int toucheAppuyee;
 
 	@FXML
@@ -32,31 +39,36 @@ public class Controleur implements Initializable {
 	private KeyCode touche;
 
 	private void initialiserMap() {
-		this.vuePlateau.proprieteFond();
-		this.vuePlateau.proprieteTilePane();
-		this.vuePlateau.creeVueMap(plateau);
 		this.paneJeu.getChildren().add(this.vuePlateau.getFond());
 		this.paneJeu.getChildren().add(this.vuePlateau.getTilePane());
 	}
 
 	private void initialiserJoueur() {
 		this.paneJeu.getChildren().add(this.vueJoueur.getPersonnage());
-
 		this.vueJoueur.getPersonnage().translateXProperty().bind(player.getPosition().coordXProperty());
 		this.vueJoueur.getPersonnage().translateYProperty().bind(player.getPosition().coordYProperty());
 	}
 
+	private void initialiserEnnemis() {
+		this.paneJeu.getChildren().add(this.vueEnnemi.getPersonnage());
+		this.vueEnnemi.getPersonnage().translateXProperty().bind(mob.getPosition().coordXProperty());
+		this.vueEnnemi.getPersonnage().translateYProperty().bind(mob.getPosition().coordYProperty());
+	}
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		this.plateau = new Plateau();
-		this.player = new Personnage(plateau, 400, 448);
-		this.vuePlateau = new VuePlateau();
+		this.jeu = new Jeu();
+		this.player = this.jeu.getJoueur();
+		this.mob = this.jeu.getEnnemi();
+		this.vuePlateau = new VuePlateau(this.jeu.getPlateau());
 		this.vueJoueur = new VueJoueur();
+		this.vueEnnemi = new VueEnnemi();
 
 		toucheAppuyee = 0;
 
 		initialiserMap();
 		initialiserJoueur();
+		initialiserEnnemis();
 		initAnimation();
 
 		gameloop.play();
@@ -73,16 +85,34 @@ public class Controleur implements Initializable {
 			// Gravité
 
 			if (timer % 5 == 0) {
-				if (player.detectionSol()) {
+				if (player.detectionVide()) {
 					player.tomber();
 
-					if (player.detectionSol()) {
+					if (player.detectionVide()) {
 						this.vueJoueur.orientationBas();
 					}
 
 					else {
 						this.vueJoueur.orientationBobo();
 					}
+				}
+			}
+
+			if (timer % 8 == 0) {
+				if (bordTouche == 0) {
+					if (mob.detectionBlocPlein(-16, 0)) {
+						this.vueEnnemi.orientationDroite();
+						bordTouche = 1;
+					}
+					mob.deplacementGauche();
+				}
+
+				if (bordTouche == 1) {
+					if (mob.detectionBlocPlein(16, 0)) {
+						this.vueEnnemi.orientationGauche();
+						bordTouche = 0;
+					}
+					mob.deplacementDroite();
 				}
 			}
 			timer++;
@@ -120,7 +150,7 @@ public class Controleur implements Initializable {
 				}
 
 				else {
-					if (!player.detectionSol()) {
+					if (!player.detectionVide()) {
 						toucheAppuyee = 0;
 					}
 				}

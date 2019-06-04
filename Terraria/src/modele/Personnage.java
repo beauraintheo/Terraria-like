@@ -1,6 +1,6 @@
 package modele;
 
-public class Personnage {
+public abstract class Personnage {
 
 	private Coordonnees position;
 	private Plateau plateau;
@@ -41,22 +41,19 @@ public class Personnage {
 	public void deplacementDroite() {
 		if (this.getPositionPlus(16, 0).getCoordX() <= 1248) {
 			if (this.plateau.casePlateau(this.getPositionPlus(16, 0)) == 0) {
-				this.setPosition(this.getPosition().getCoordX() + 16,
-						this.getPosition().getCoordY());
+				this.setPosition(this.getPosition().getCoordX() + 16, this.getPosition().getCoordY());
 			}
 		}
 
 		else {
-			this.getPosition().setCoord(this.getPosition().getCoordX(),
-					this.getPosition().getCoordY());
+			this.getPosition().setCoord(this.getPosition().getCoordX(), this.getPosition().getCoordY());
 		}
 	}
 
 	public void sauter() {
 		if (this.getPositionPlus(0, -16).getCoordY() >= 0) {
 			if (this.plateau.casePlateau(this.getPositionPlus(0, -16)) == 0) {
-				this.setPosition(this.getPosition().getCoordX(),
-						this.getPosition().getCoordY() - 16);
+				this.setPosition(this.getPosition().getCoordX(), this.getPosition().getCoordY() - 16);
 			}
 		}
 	}
@@ -64,23 +61,21 @@ public class Personnage {
 	public void tomber() {
 		if (this.getPositionPlus(0, 16).getCoordY() <= 1248) {
 			if (this.plateau.casePlateau(this.getPositionPlus(0, 16)) == 0) {
-				this.setPosition(this.getPosition().getCoordX(),
-						this.getPosition().getCoordY() + 16);
+				this.setPosition(this.getPosition().getCoordX(), this.getPosition().getCoordY() + 16);
 			}
 		}
 	}
-	
-	public boolean detectionSol() {
+
+	public boolean detectionVide() {
 		if (this.plateau.casePlateau(this.getPositionPlus(0, 16)) == 0) {
 			return true;
 		}
 		return false;
 	}
-	
-	public boolean detectionBlocVide(int vitesseX, int vitesseY) {
-		if (this.plateau.casePlateau(this.getPositionPlus(vitesseX, vitesseY)) == 0) {
+
+	public boolean detectionBlocPlein(int vitesseX, int vitesseY) {
+		if (this.plateau.casePlateau(getPositionPlus(vitesseX, vitesseY)) == 0)
 			return false;
-		}
 		return true;
 	}
 }

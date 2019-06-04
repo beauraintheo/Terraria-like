@@ -19,11 +19,14 @@ public class VuePlateau {
 	private TilePane tilePaneMap;
 	private ImageView imageViewFond;
 	
-	public VuePlateau() {
+	public VuePlateau(Plateau plateau) {
 		tuiles = new Image(new File("Ressources/Maps/tileset.png").toURI().toString());
 		imageFond = new Image(new File("Ressources/Maps/jour.png").toURI().toString());
 		imageViewFond = new ImageView();
 		this.tilePaneMap = new TilePane(Orientation.VERTICAL);
+		proprieteFond();
+		proprieteTilePane();
+		creeVueMap(plateau);
 	}
 	
 	// Méthode pour gérer les dimensions du TilePane
@@ -83,6 +86,10 @@ public class VuePlateau {
 			break;
 		case 3: //Bois
 			this.tilesetX = 52;
+			this.tilesetY = 1;
+			break;
+		case 4: 
+			this.tilesetX = 1;
 			this.tilesetY = 1;
 			break;
 		case 7: //Herbe
