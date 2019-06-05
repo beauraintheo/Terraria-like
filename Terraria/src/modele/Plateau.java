@@ -50,9 +50,9 @@ public class Plateau {
 	}
 
 	public boolean creuserBlocDistance1(Coordonnees coo, Coordonnees coo2) {
-		if (coo.getCoordX() / 16 <= (coo2.getCoordX() / 16) + 1 && coo.getCoordX() / 16 >= (coo2.getCoordX() / 16) - 1
-				&& coo.getCoordY() / 16 <= (coo2.getCoordY() / 16) + 1
-				&& coo.getCoordY() / 16 >= (coo2.getCoordY() / 16) - 1) {
+		if (coo.getCoordX() / 16 <= (coo2.getCoordX() / 16) + 2 && coo.getCoordX() / 16 >= (coo2.getCoordX() / 16) - 2
+				&& coo.getCoordY() / 16 <= (coo2.getCoordY() / 16) + 2
+				&& coo.getCoordY() / 16 >= (coo2.getCoordY() / 16) - 2) {
 			return true;
 		}
 		return false;
