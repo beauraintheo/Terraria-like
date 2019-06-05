@@ -27,7 +27,7 @@ public class Controleur implements Initializable {
 
 	private Jeu jeu;
 	private VuePlateau vuePlateau;
-	private VueInterfaceHaut vueInterfaceHaut;
+	//private VueInterfaceHaut vueInterfaceHaut;
 	private VueJoueur vueJoueur;
 	private VueEnnemi vueEnnemi;
 
@@ -40,7 +40,6 @@ public class Controleur implements Initializable {
 	private int toucheAppuyee;
 
     @FXML
-    private VBox interfaceHaut;
 	private Pane paneJeu;
 	private Timeline gameloop;
 	private KeyCode touche;
@@ -50,9 +49,9 @@ public class Controleur implements Initializable {
 		this.paneJeu.getChildren().add(this.vuePlateau);
 	}
 	
-	private void initialiserInterfaceHaut() {
+	/*private void initialiserInterfaceHaut() {
 		this.interfaceHaut.getChildren().add(this.vueInterfaceHaut);
-	}
+	}*/
 
 	private void initialiserJoueur() {
 		this.paneJeu.getChildren().add(this.vueJoueur);
@@ -72,7 +71,7 @@ public class Controleur implements Initializable {
 		this.player = this.jeu.getJoueur();
 		this.mob = this.jeu.getEnnemi();
 		this.vuePlateau = new VuePlateau(this.jeu.getPlateau());
-		this.vueInterfaceHaut = new VueInterfaceHaut();
+	//	this.vueInterfaceHaut = new VueInterfaceHaut();
 		this.vueJoueur = new VueJoueur();
 		this.vueEnnemi = new VueEnnemi();
 		this.jeu.getPlateau().addObs(this.vuePlateau);
@@ -80,7 +79,7 @@ public class Controleur implements Initializable {
 		toucheAppuyee = 0;
 
 		initialiserMap();
-		initialiserInterfaceHaut();
+	//	initialiserInterfaceHaut();
 		initialiserJoueur();
 		initialiserEnnemis();
 		initAnimation();
