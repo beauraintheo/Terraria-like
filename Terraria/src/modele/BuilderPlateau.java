@@ -41,12 +41,6 @@ public class BuilderPlateau {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
-
-		try {
-			ligne = br.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
 		this.width = 80;
 		this.height = 80;
@@ -97,13 +91,13 @@ public class BuilderPlateau {
 	}
 	
 	public void affichePlateau(int[][] tab) {
-		for (int i = 0; i < tab.length; i++) {
+		for (int y = 0; y < tab.length; y++) {
 			System.out.print("{");
 			
-			for (int j = 0; j < tab[i].length; j++) {
-				System.out.print(tab[i][j]);
+			for (int x = 0; x < tab[y].length; x++) {
+				System.out.print(tab[y][x]);
 				
-				if (j < tab.length-1) {
+				if (x < tab.length-1) {
 					System.out.print(",");
 				}
 			}
