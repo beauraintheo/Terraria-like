@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import vue.VueEnnemi;
+import vue.VueInterfaceHaut;
 import vue.VueJoueur;
 import vue.VuePlateau;
 import javafx.animation.KeyFrame;
@@ -15,6 +16,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import modele.Coordonnees;
 import modele.Ennemi;
@@ -25,6 +27,7 @@ public class Controleur implements Initializable {
 
 	private Jeu jeu;
 	private VuePlateau vuePlateau;
+	private VueInterfaceHaut vueInterfaceHaut;
 	private VueJoueur vueJoueur;
 	private VueEnnemi vueEnnemi;
 
@@ -36,7 +39,8 @@ public class Controleur implements Initializable {
 	private int bordTouche;
 	private int toucheAppuyee;
 
-	@FXML
+    @FXML
+    private VBox interfaceHaut;
 	private Pane paneJeu;
 	private Timeline gameloop;
 	private KeyCode touche;
@@ -44,6 +48,10 @@ public class Controleur implements Initializable {
 	private void initialiserMap() {
 		this.paneJeu.getChildren().add(this.vuePlateau.getFond());
 		this.paneJeu.getChildren().add(this.vuePlateau);
+	}
+	
+	private void initialiserInterfaceHaut() {
+		this.interfaceHaut.getChildren().add(this.vueInterfaceHaut);
 	}
 
 	private void initialiserJoueur() {
@@ -64,6 +72,7 @@ public class Controleur implements Initializable {
 		this.player = this.jeu.getJoueur();
 		this.mob = this.jeu.getEnnemi();
 		this.vuePlateau = new VuePlateau(this.jeu.getPlateau());
+		this.vueInterfaceHaut = new VueInterfaceHaut();
 		this.vueJoueur = new VueJoueur();
 		this.vueEnnemi = new VueEnnemi();
 		this.jeu.getPlateau().addObs(this.vuePlateau);
@@ -71,6 +80,7 @@ public class Controleur implements Initializable {
 		toucheAppuyee = 0;
 
 		initialiserMap();
+		initialiserInterfaceHaut();
 		initialiserJoueur();
 		initialiserEnnemis();
 		initAnimation();
