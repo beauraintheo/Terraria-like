@@ -83,12 +83,12 @@ public class Controleur implements Initializable {
 		gameloop.setCycleCount(Timeline.INDEFINITE);
 		timer = 0;
 
-		KeyFrame kf = new KeyFrame(Duration.seconds(0.030), (ev -> {
+		KeyFrame kf = new KeyFrame(Duration.seconds(0.050), (ev -> {
 			this.deplacement();
 
 			// Gravité
 
-			if (timer % 5 == 0) {
+			if (timer % 4 == 0) {
 				if (player.detectionVide()) {
 					player.tomber();
 
