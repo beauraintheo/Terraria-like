@@ -3,6 +3,7 @@ package controleur;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import vue.VueCurseur;
 import vue.VueEnnemi;
 import vue.VueInterfaceHaut;
 import vue.VueJoueur;
@@ -11,6 +12,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.ImageCursor;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -30,6 +32,7 @@ public class Controleur implements Initializable {
 	//private VueInterfaceHaut vueInterfaceHaut;
 	private VueJoueur vueJoueur;
 	private VueEnnemi vueEnnemi;
+	private VueCurseur vueCurseur;
 
 	// Temporaire, à modifier
 	private Joueur player;
@@ -72,6 +75,7 @@ public class Controleur implements Initializable {
 		this.mob = this.jeu.getEnnemi();
 		this.vuePlateau = new VuePlateau(this.jeu.getPlateau());
 	//	this.vueInterfaceHaut = new VueInterfaceHaut();
+		this.vueCurseur = new VueCurseur();
 		this.vueJoueur = new VueJoueur();
 		this.vueEnnemi = new VueEnnemi();
 		this.jeu.getPlateau().addObs(this.vuePlateau);
@@ -148,10 +152,24 @@ public class Controleur implements Initializable {
 		Coordonnees coo = new Coordonnees((int) event.getX(), (int) event.getY());
 		
 		if (event.getButton() == MouseButton.PRIMARY) {
+			if (jeu.getPlateau().casePlateau(coo) == 0) {
+				this.paneJeu.setCursor(new ImageCursor(vueCurseur.chargerEpee()));
+			}
+			
+			else {
+				this.paneJeu.setCursor(new ImageCursor(vueCurseur.chargerPioche()));
+			}
 			this.jeu.getPlateau().casserBloc(coo, player.getPosition());
 		}
 		
 		if (event.getButton() == MouseButton.SECONDARY) {
+			if (jeu.getPlateau().casePlateau(coo) == 0) {
+				this.paneJeu.setCursor(new ImageCursor(vueCurseur.chargerEpee()));
+			}
+			
+			else {
+				this.paneJeu.setCursor(new ImageCursor(vueCurseur.chargerPioche()));
+			}
 			this.jeu.getPlateau().poserBloc(coo, player.getPosition());
 		}
 	}
