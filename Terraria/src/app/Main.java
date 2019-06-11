@@ -19,7 +19,7 @@ public class Main extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Test.fxml"));
 			BorderPane root = (BorderPane) loader.load();
-			Scene scene = new Scene(root, 600, 600);
+			Scene scene = new Scene(root, 800, 800);
 			primaryStage.setScene(scene);
 			root.requestFocus();
 			primaryStage.setTitle("Terraria");

@@ -4,42 +4,57 @@
 
 package modele;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class Item {
 
-	private int tailleStacking; // Le tailleStacking est le nombre d'exemplaire max que peut avoir un stack
-								// d'objet.
-	private int exemplaire; // Le nombre d'exemplaire
+	private int exemplaireMax;
+	private IntegerProperty exemplaire;
 	private int id;
 	private String nom;
 
-	public Item(int stacking, int id, String nom) {
-		this.tailleStacking = stacking;
+	/*
+	 * ID des blocks : 1 -> Terre 2 -> Pierre 3 -> Bois 4 -> Charbon 5 -> Fer 6 ->
+	 * Fleur 7 -> Epee 8 -> Pioche
+	 */
+
+	public Item(int id, String nom, int exemplaire, int exemplaireMax) {
 		this.id = id;
 		this.nom = nom;
-		this.exemplaire = 1;
+		this.exemplaire = new SimpleIntegerProperty(exemplaire);
+		this.exemplaireMax = exemplaireMax;
 	}
 
-	public int getID() {
+	public void ajouterExemplaireItem() {
+		if (tailleItem())
+			this.exemplaire.set(this.exemplaire.get() + 1);
+	}
+
+	public void retirerExemplaireItem() {
+		if (tailleItem())
+			this.exemplaire.set(this.exemplaire.get() - 1);
+	}
+
+	public boolean tailleItem() {
+		if (exemplaire.getValue() <= 0 || exemplaire.getValue() > 64)
+			return false;
+		return true;
+	}
+
+	public int getId() {
 		return this.id;
 	}
-
-	public String getNom() {
-		return this.nom;
-	}
-
-	public int getTailleStacking() {
-		return this.tailleStacking;
-	}
-
-	public int nbExemplaire() {
+	
+	public IntegerProperty getExemplaireProperty() {
 		return this.exemplaire;
 	}
-
-	public void ajouterExemplaire() {
-		this.exemplaire++;
+	
+	public int getExemplaire() {
+		return this.exemplaire.getValue();
 	}
-
-	public void utiliser() {
-		this.exemplaire--;
+	
+	public String toString() {
+		return "ID : " + this.id + "\nNom : " + this.nom + "\nTaille : " + this.getExemplaire() + "\nTaille max : " + this.exemplaireMax;
 	}
 }

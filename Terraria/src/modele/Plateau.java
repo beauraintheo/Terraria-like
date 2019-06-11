@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import vue.ObservateurPlateau;
 
+//TODO: Le plateau dit si un bloc est cassable ou non, sans se soucier de la position du joueur.
+
 public class Plateau {
 
 	private int[][] plateau;
 	private ArrayList<ObservateurPlateau> obs;
 	private BuilderPlateau bp = new BuilderPlateau();
-	private String url = "Ressources/Maps/mapTest.csv";
+	private String url = "Ressources/Maps/mapMainSansScroll.csv";
 
 	public Plateau() {
 		this.obs = new ArrayList<ObservateurPlateau>();
@@ -17,25 +19,111 @@ public class Plateau {
 		this.plateau = bp.getPlateau();
 	}
 
-	public int casePlateau(Coordonnees coo) {
+	public int getCasePlateau(Coordonnees coo) {
 		return this.plateau[coo.getCoordY() / 16][coo.getCoordX() / 16];
 	}
 
-	public void casserBloc(Coordonnees coo, Coordonnees positionJoueur) {
-		if (creuserBlocDistance1(coo, positionJoueur)) {
-			if (this.plateau[coo.getCoordY() / 16][coo.getCoordX() / 16] != 0) {
-				this.plateau[coo.getCoordY() / 16][coo.getCoordX() / 16] = 0;
-				avertirObs(0, coo);
+	public void casserBloc(Coordonnees coord) {
+		if (blocCassable(this.plateau[coord.getCoordY() / 16][coord.getCoordX() / 16])) {
+			this.plateau[coord.getCoordY() / 16][coord.getCoordX() / 16] = -1;
+			avertirObs(-1, coord);
+
+			Coordonnees coordBlocDessus = new Coordonnees(coord.getCoordX(), (coord.getCoordY() - 16));
+
+			if (blocAvecSupport(this.plateau[coordBlocDessus.getCoordY() / 16][coordBlocDessus.getCoordX() / 16])) {
+				this.plateau[coordBlocDessus.getCoordY() / 16][coordBlocDessus.getCoordX() / 16] = -1;
+				avertirObs(-1, coordBlocDessus);
 			}
+
+			if (blocLiquide(this.plateau[coordBlocDessus.getCoordY() / 16][coordBlocDessus.getCoordX() / 16])) {
+				while (this.plateau[coord.getCoordY() / 16][coord.getCoordX() / 16] == -1) {
+					this.plateau[coord.getCoordY() / 16][coord.getCoordX() / 16] = 16;
+					avertirObs(16, coord);
+					coord.setCoordY(coord.getCoordY() + 16);
+				}
+			}
+
 		}
 	}
 
-	public void poserBloc(Coordonnees coo, Coordonnees positionJoueur) {
-		if (creuserBlocDistance1(coo, positionJoueur) && placerBlocSousPerso(coo, positionJoueur)) {
-			if (this.plateau[coo.getCoordY() / 16][coo.getCoordX() / 16] == 0) {
-				this.plateau[coo.getCoordY() / 16][coo.getCoordX() / 16] = 1;
-				avertirObs(1, coo);
-			}
+	public void poserBloc(Coordonnees coord) {
+		if (blocPosable(this.plateau[coord.getCoordY() / 16][coord.getCoordX() / 16])) {
+			this.plateau[coord.getCoordY() / 16][coord.getCoordX() / 16] = 3;
+			avertirObs(3, coord);
+		}
+	}
+
+	public boolean blocPosable(int casePlateau) {
+		switch (casePlateau) {
+		case -1: // Air
+			return true;
+		case 11: // Herbe-Courte
+			return true;
+		case 12: // Herbe-Longue
+			return true;
+		case 13: // Champignon
+			return true;
+		case 15: // Eau-Sommet
+			return true;
+		case 16: // Eau
+			return true;
+		case 17: // Fleur
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	public boolean blocCassable(int casePlateau) {
+		if (casePlateau != -1)
+			return true;
+		return false;
+	}
+
+	public boolean blocLiquide(int casePlateau) {
+		if (casePlateau == 15 || casePlateau == 16) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean blocAvecSupport(int casePlateau) {
+		switch (casePlateau) {
+		case 11: // Herbe-Courte
+			return true;
+		case 12: // Herbe-Longue
+			return true;
+		case 13: // Champignon
+			return true;
+		case 17: // Fleur
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	public boolean blocTraversable(int casePlateau) {
+		switch (casePlateau) {
+		case -1: // Air (Vide)
+			return true;
+		case 5: // Bois
+			return true;
+		case 10: // Feuille
+			return true;
+		case 11: // Herbe-Courte
+			return true;
+		case 12: // Herbe-Longue
+			return true;
+		case 13: // Champignon
+			return true;
+		case 15: // Eau-Sommet
+			return true;
+		case 16: // Eau
+			return true;
+		case 17: // Fleur
+			return true;
+		default:
+			return false;
 		}
 	}
 
@@ -43,29 +131,22 @@ public class Plateau {
 		this.obs.add(newVuePlateau);
 	}
 
-	private void avertirObs(int newValue, Coordonnees coo) {
+	private void avertirObs(int newValue, Coordonnees coord) {
 		for (int i = 0; i < this.obs.size(); i++) {
-			this.obs.get(i).valueChanged(newValue, coo);
+			this.obs.get(i).valueChanged(newValue, coord);
 		}
-	}
-
-	public boolean creuserBlocDistance1(Coordonnees coo, Coordonnees coo2) {
-		if (coo.getCoordX() / 16 <= (coo2.getCoordX() / 16) + 2 && coo.getCoordX() / 16 >= (coo2.getCoordX() / 16) - 2
-				&& coo.getCoordY() / 16 <= (coo2.getCoordY() / 16) + 2
-				&& coo.getCoordY() / 16 >= (coo2.getCoordY() / 16) - 2) {
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean placerBlocSousPerso(Coordonnees coo, Coordonnees coo2) {
-		if ((coo.getCoordX() / 16) == (coo2.getCoordX() / 16) && (coo.getCoordY() / 16) == (coo2.getCoordY() / 16)) {
-			return false;
-		}
-		return true;
 	}
 
 	public int[][] getPlateau() {
 		return this.plateau;
 	}
+
+	public int getTaillePlateauX() {
+		return this.plateau.length;
+	}
+
+	public int getTaillePlateauY() {
+		return this.plateau[0].length;
+	}
+
 }

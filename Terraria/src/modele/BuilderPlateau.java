@@ -45,7 +45,7 @@ public class BuilderPlateau {
 		this.width = 80;
 		this.height = 80;
 		
-		int[][] plateau = new int[this.width][this.height];
+		int[][] plateau = new int[this.height][this.width];
 		String[] sampleString = new String[this.width];
 		
 		try {
@@ -97,7 +97,7 @@ public class BuilderPlateau {
 			for (int x = 0; x < tab[y].length; x++) {
 				System.out.print(tab[y][x]);
 				
-				if (x < tab.length-1) {
+				if (x < tab[y].length-1) {
 					System.out.print(",");
 				}
 			}

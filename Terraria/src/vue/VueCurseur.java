@@ -15,13 +15,13 @@ public class VueCurseur extends ImageView {
 	}
 	
 	public Image chargerPioche() {
-		File img = new File("Ressources/Sprites/Items/pioche-diamant.gif");
+		File img = new File("../Ressources/Sprites/Items/pioche-diamant.gif");
 		Image curs = new Image(img.toURI().toString());
 		return curs;
 	}
 	
 	public Image chargerEpee() {
-		File img = new File("Ressources/Sprites/Items/epee-diamant.gif");
+		File img = new File("../Ressources/Sprites/Items/epee-diamant.gif");
 		Image curs = new Image(img.toURI().toString());
 		return curs;
 	}

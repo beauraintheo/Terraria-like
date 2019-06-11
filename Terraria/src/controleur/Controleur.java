@@ -3,7 +3,6 @@ package controleur;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import vue.VueCurseur;
 import vue.VueEnnemi;
 import vue.VueInterfaceHaut;
 import vue.VueJoueur;
@@ -12,7 +11,10 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.ImageCursor;
+import javafx.scene.Camera;
+import javafx.scene.ParallelCamera;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -22,6 +24,7 @@ import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import modele.Coordonnees;
 import modele.Ennemi;
+import modele.Item;
 import modele.Jeu;
 import modele.Joueur;
 
@@ -29,63 +32,64 @@ public class Controleur implements Initializable {
 
 	private Jeu jeu;
 	private VuePlateau vuePlateau;
-	//private VueInterfaceHaut vueInterfaceHaut;
 	private VueJoueur vueJoueur;
 	private VueEnnemi vueEnnemi;
-	private VueCurseur vueCurseur;
-
-	// Temporaire, à modifier
-	private Joueur player;
-	private Ennemi mob;
+	private Item item;
 
 	private int timer;
 	private int bordTouche;
 	private int toucheAppuyee;
 
-    @FXML
-	private Pane paneJeu;
 	private Timeline gameloop;
 	private KeyCode touche;
+
+	@FXML
+	private Pane paneJeu;
+
+	@FXML
+	private Label labelTerre;
+
+	@FXML
+	private Label labelPierre;
+
+	@FXML
+	private Label labelBois;
+
+	@FXML
+	private Label labelCharbon;
+
+	@FXML
+	private Label labelFer;
+
+	@FXML
+	private Label labelFleur;
+
 
 	private void initialiserMap() {
 		this.paneJeu.getChildren().add(this.vuePlateau.getFond());
 		this.paneJeu.getChildren().add(this.vuePlateau);
 	}
-	
-	/*private void initialiserInterfaceHaut() {
-		this.interfaceHaut.getChildren().add(this.vueInterfaceHaut);
-	}*/
 
 	private void initialiserJoueur() {
 		this.paneJeu.getChildren().add(this.vueJoueur);
-		this.vueJoueur.translateXProperty().bind(player.getPosition().coordXProperty());
-		this.vueJoueur.translateYProperty().bind(player.getPosition().coordYProperty());
-	}
-
-	private void initialiserEnnemis() {
-		this.paneJeu.getChildren().add(this.vueEnnemi);
-		this.vueEnnemi.translateXProperty().bind(mob.getPosition().coordXProperty());
-		this.vueEnnemi.translateYProperty().bind(mob.getPosition().coordYProperty());
+		this.vueJoueur.translateXProperty().bind(this.jeu.coordonneesJoueurX());
+		this.vueJoueur.translateYProperty().bind(this.jeu.coordonneesJoueurY());
+		this.vueJoueur.orientationProperty().bind(this.jeu.orientationJoueur());
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		this.jeu = new Jeu();
-		this.player = this.jeu.getJoueur();
-		this.mob = this.jeu.getEnnemi();
-		this.vuePlateau = new VuePlateau(this.jeu.getPlateau());
-	//	this.vueInterfaceHaut = new VueInterfaceHaut();
-		this.vueCurseur = new VueCurseur();
+		this.vuePlateau = new VuePlateau(this.jeu.getTabPlateau());
 		this.vueJoueur = new VueJoueur();
-		this.vueEnnemi = new VueEnnemi();
-		this.jeu.getPlateau().addObs(this.vuePlateau);
+		this.jeu.ajouterObsPlateau(this.vuePlateau);
 		
 		toucheAppuyee = 0;
 
 		initialiserMap();
-	//	initialiserInterfaceHaut();
+		// initialiserCamera();
 		initialiserJoueur();
-		initialiserEnnemis();
+		// initialiserEnnemis();
 		initAnimation();
 
 		gameloop.play();
@@ -96,42 +100,9 @@ public class Controleur implements Initializable {
 		gameloop.setCycleCount(Timeline.INDEFINITE);
 		timer = 0;
 
-		KeyFrame kf = new KeyFrame(Duration.seconds(0.050), (ev -> {
+		KeyFrame kf = new KeyFrame(Duration.seconds(0.060), (ev -> {
 			this.deplacement();
-
-			// Gravité
-
-			if (timer % 4 == 0) {
-				if (player.detectionVide()) {
-					player.tomber();
-
-					if (player.detectionVide()) {
-						this.vueJoueur.orientationBas();
-					}
-
-					else {
-						this.vueJoueur.orientationBobo();
-					}
-				}
-			}
-
-			if (timer % 8 == 0) {
-				if (bordTouche == 0) {
-					if (mob.detectionBlocPlein(-16, 0)) {
-						this.vueEnnemi.orientationDroite();
-						bordTouche = 1;
-					}
-					mob.deplacementGauche();
-				}
-
-				if (bordTouche == 1) {
-					if (mob.detectionBlocPlein(16, 0)) {
-						this.vueEnnemi.orientationGauche();
-						bordTouche = 0;
-					}
-					mob.deplacementDroite();
-				}
-			}
+			this.jeu.unTour(timer);
 			timer++;
 		}));
 		gameloop.getKeyFrames().add(kf);
@@ -149,56 +120,88 @@ public class Controleur implements Initializable {
 
 	@FXML
 	void actionBloc(MouseEvent event) {
-		Coordonnees coo = new Coordonnees((int) event.getX(), (int) event.getY());
-		
+		Coordonnees coord = new Coordonnees((int) event.getX(), (int) event.getY());
+
 		if (event.getButton() == MouseButton.PRIMARY) {
-			if (jeu.getPlateau().casePlateau(coo) == 0) {
-				this.paneJeu.setCursor(new ImageCursor(vueCurseur.chargerEpee()));
-			}
-			
-			else {
-				this.paneJeu.setCursor(new ImageCursor(vueCurseur.chargerPioche()));
-			}
-			this.jeu.getPlateau().casserBloc(coo, player.getPosition());
+			this.jeu.avertirChangementPlateau("Casser", coord);
 		}
-		
+
 		if (event.getButton() == MouseButton.SECONDARY) {
-			if (jeu.getPlateau().casePlateau(coo) == 0) {
-				this.paneJeu.setCursor(new ImageCursor(vueCurseur.chargerEpee()));
-			}
-			
-			else {
-				this.paneJeu.setCursor(new ImageCursor(vueCurseur.chargerPioche()));
-			}
-			this.jeu.getPlateau().poserBloc(coo, player.getPosition());
+			this.jeu.avertirChangementPlateau("Poser", coord);
 		}
 	}
 
 	private void deplacement() {
 		if (touche != null) {
 			if (touche == KeyCode.Q || touche == KeyCode.LEFT) {
-				player.deplacementGauche();
-				this.vueJoueur.orientationGauche();
+				this.jeu.avertirDeplacementJoueur("Gauche");
 			}
 
 			if (touche == KeyCode.D || touche == KeyCode.RIGHT) {
-				player.deplacementDroite();
-				this.vueJoueur.orientationDroite();
+				this.jeu.avertirDeplacementJoueur("Droite");
 			}
 
 			if (touche == KeyCode.Z || touche == KeyCode.UP) {
 				if (toucheAppuyee < 10) {
-					player.sauter();
-					this.vueJoueur.orientationHaut();
+					this.jeu.avertirDeplacementJoueur("Haut");
 					toucheAppuyee++;
 				}
 
 				else {
-					if (!player.detectionVide()) {
+					if (!this.jeu.videSousJoueur()) {
 						toucheAppuyee = 0;
 					}
 				}
 			}
 		}
+	}
+
+	@FXML
+	void actionEpee(MouseEvent event) {
+
+	}
+
+	@FXML
+	void actionPioche(MouseEvent event) {
+
+	}
+
+	@FXML
+	void selectionBois(MouseEvent event) {
+		if (event.getButton() == MouseButton.PRIMARY) {
+			String value = Integer.toString(this.jeu.itemChoisi(item));
+			this.labelBois.setText(value);
+			System.out.println("lol");
+		}
+	}
+
+	@FXML
+	void selectionCharbon(MouseEvent event) {
+		String value = Integer.toString(this.jeu.itemChoisi(item));
+		this.labelCharbon.setText(value);
+	}
+
+	@FXML
+	void selectionFer(MouseEvent event) {
+		String value = Integer.toString(this.jeu.itemChoisi(item));
+		this.labelFer.setText(value);
+	}
+
+	@FXML
+	void selectionFleur(MouseEvent event) {
+		String value = Integer.toString(this.jeu.itemChoisi(item));
+		this.labelFleur.setText(value);
+	}
+
+	@FXML
+	void selectionPierre(MouseEvent event) {
+		String value = Integer.toString(this.jeu.itemChoisi(item));
+		this.labelPierre.setText(value);
+	}
+
+	@FXML
+	void selectionTerre(MouseEvent event) {
+		String value = Integer.toString(this.jeu.itemChoisi(item));
+		this.labelTerre.setText(value);
 	}
 }

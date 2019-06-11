@@ -9,7 +9,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import modele.Coordonnees;
-import modele.Plateau;
 
 public class VuePlateau extends TilePane implements ObservateurPlateau {
 
@@ -19,40 +18,40 @@ public class VuePlateau extends TilePane implements ObservateurPlateau {
 	private Image imageFond;
 	private ImageView imageViewFond;
 
-	public VuePlateau(Plateau plateau) {
-		tuiles = new Image(new File("Ressources/Maps/tileset.png").toURI().toString());
-		imageFond = new Image(new File("Ressources/Maps/jour.png").toURI().toString());
+	public VuePlateau(int[][] plateau) {
+		tuiles = new Image(new File("Ressources/Maps/tilesetv4.png").toURI().toString());
+		imageFond = new Image(new File("Ressources/Maps/jourv2.png").toURI().toString());
 		imageViewFond = new ImageView();
-		this.setOrientation(Orientation.VERTICAL);
+		this.setOrientation(Orientation.HORIZONTAL);
 		this.setTileAlignment(Pos.CENTER_LEFT);
-		this.setPrefRows(80);
-		this.setMaxWidth(800);
-		proprieteFond();
+		this.setPrefColumns(80);
+		//proprieteFond();
 		creeVueMap(plateau);
 	}
 
 	public void proprieteFond() {
 		this.imageViewFond.setImage(imageFond);
-		this.imageViewFond.setFitWidth(1264);
-		this.imageViewFond.setFitHeight(600);
+		// this.imageViewFond.setFitWidth(1270);
+		// this.imageViewFond.setFitHeight(600);
 	}
 
-	// Méthode pour créer une vue de la map en fonction du plateau qui lui est donné
+	// Méthode pour créer une vue de la map en fonction du plateau qui lui est
+	// donné
 
-	public void creeVueMap(Plateau plateau) {
-		for (int x = 0; x < plateau.getPlateau().length - 1; x++) {
-			for (int y = 0; y < plateau.getPlateau()[x].length; y++) {
-				int casePlateau = plateau.getPlateau()[y][x];
+	public void creeVueMap(int[][] plateau) {
+		for (int x = 0; x < plateau.length; x++) {
+			for (int y = 0; y < plateau[x].length; y++) {
+				int casePlateau = plateau[x][y];
 				ImageView img = decoupage(casePlateau);
 				this.getChildren().add(img);
 			}
 		}
 	}
 
-	// Méthode pour découper le tileset donné
+	// MÃ©thode pour dÃ©couper le tileset donnÃ©
 
 	public ImageView decoupage(int casePlateau) {
-		if (casePlateau != 0) {
+		if (casePlateau != -1) {
 			ImageView imgTuile = new ImageView(tuiles);
 			selectionTuile(casePlateau);
 			Rectangle2D decoupage = new Rectangle2D(tilesetX, tilesetY, 16, 16);
@@ -66,11 +65,12 @@ public class VuePlateau extends TilePane implements ObservateurPlateau {
 		}
 	}
 
-	// Méthode pour sélectionner une tuile voulue en fonction de la case du plateau
+	// MÃ©thode pour sÃ©lectionner une tuile voulue en fonction de la case du
+	// plateau
 
 	public void selectionTuile(int tuile) {
 		switch (tuile) {
-		case 0: // Ciel
+		case 0: // Herbe (bloc)
 			this.tilesetX = 1;
 			this.tilesetY = 1;
 			break;
@@ -78,33 +78,61 @@ public class VuePlateau extends TilePane implements ObservateurPlateau {
 			this.tilesetX = 18;
 			this.tilesetY = 1;
 			break;
-		case 3: // Bois
+		case 2: // Pierre
+			this.tilesetX = 35;
+			this.tilesetY = 1;
+			break;
+		case 3: // Sable
 			this.tilesetX = 52;
 			this.tilesetY = 1;
 			break;
-		case 7: // Herbe
+		case 5: // Bois
 			this.tilesetX = 1;
 			this.tilesetY = 18;
 			break;
-		case 8: // Herbe - côté droit
+		case 6: // Charbon
 			this.tilesetX = 18;
 			this.tilesetY = 18;
 			break;
-		case 9: // Herbe - côté gauche
+		case 7: // Fer
 			this.tilesetX = 35;
 			this.tilesetY = 18;
 			break;
-		case 15: // Herbe - coin haut droit
+		case 8: // Obsidienne
+			this.tilesetX = 52;
+			this.tilesetY = 18;
+			break;
+		case 10: // Feuille
+			this.tilesetX = 1;
+			this.tilesetY = 35;
+			break;
+		case 11: // Herbe-Courte
+			this.tilesetX = 18;
+			this.tilesetY = 35;
+			break;
+		case 12: // Herbe-Longue
+			this.tilesetX = 35;
+			this.tilesetY = 35;
+			break;
+		case 13: // Champignon
+			this.tilesetX = 52;
+			this.tilesetY = 35;
+			break;
+		case 15: // Eau-Sommet
 			this.tilesetX = 1;
 			this.tilesetY = 52;
 			break;
-		case 28: // Pierre
-			this.tilesetX = 1;
-			this.tilesetY = 69;
-			break;
-		case 29: // Charbon
+		case 16: // Eau
 			this.tilesetX = 18;
-			this.tilesetY = 69;
+			this.tilesetY = 52;
+			break;
+		case 17: // Plante
+			this.tilesetX = 35;
+			this.tilesetY = 52;
+			break;
+		case 18: // Barrière
+			this.tilesetX = 52;
+			this.tilesetY = 52;
 			break;
 		default:
 			this.tilesetX = 18;
@@ -126,7 +154,7 @@ public class VuePlateau extends TilePane implements ObservateurPlateau {
 
 	@Override
 	public void valueChanged(int newValue, Coordonnees coo) {
-		int index = 80 * (coo.getCoordX() / 16) + (coo.getCoordY() / 16);		
+		int index = 80 * (coo.getCoordY() / 16) + (coo.getCoordX() / 16);
 		this.getChildren().remove(index);
 		this.getChildren().add(index, decoupage(newValue));
 	}
