@@ -25,7 +25,7 @@ public class VuePlateau extends TilePane implements ObservateurPlateau {
 		this.setOrientation(Orientation.HORIZONTAL);
 		this.setTileAlignment(Pos.CENTER_LEFT);
 		this.setPrefColumns(80);
-		//proprieteFond();
+		proprieteFond();
 		creeVueMap(plateau);
 	}
 

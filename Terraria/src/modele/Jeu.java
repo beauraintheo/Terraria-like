@@ -8,12 +8,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import vue.ObservateurPlateau;
+import modele.Item;
 
 public class Jeu {
 
 	private Plateau plateau;
 	private Joueur joueur;
 	private Inventaire inventaire;
+	private Item item;
 	private ObservableList<Ennemi> ennemis;
 
 	public Jeu() {
@@ -21,17 +23,27 @@ public class Jeu {
 		this.joueur = new Joueur(plateau, 16, 320);
 		this.ennemis = FXCollections.observableArrayList();
 		this.inventaire = new Inventaire();
+		this.item = new Item();
 		this.ajouterEcouteurEnnemis();
 		this.ajouterNouveauEnnemi();
 	}
 
 	/* ==== Méthodes Gestion Inventaire ==== */
 
-	public int itemChoisi(Item item) {
-		if (inventaire.recupererIdItem(item) == 0) {
-			return 0;
+	public int itemChoisi(int id) {
+		int value = inventaire.recupererNbExemplaire(id);
+		return value;
+	}
+
+	public int ajouterBlocInventaire(Coordonnees coo) {
+		if (!plateau.blocCasse(coo)) {
+			if (plateau.getCasePlateau(coo) == 1) {
+				item = this.inventaire.item(1);
+				item.ajouterExemplaireItem();
+				System.out.println(item.getExemplaire());
+			}
 		}
-		return item.getExemplaire();
+		return 0;
 	}
 
 	/* ===== ===== */

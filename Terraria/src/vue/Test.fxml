@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -9,17 +14,17 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="800.0" maxWidth="800.0" minHeight="800.0" minWidth="800.0" onKeyPressed="#clavier" onKeyReleased="#relacheTouche" onMouseClicked="#actionBloc" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.Controleur">
+<BorderPane maxHeight="800.0" maxWidth="800.0" minHeight="800.0" minWidth="800.0" onKeyPressed="#clavier" onKeyReleased="#relacheTouche" onMouseClicked="#actionBloc" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.Controleur">
    <center>
       <Pane fx:id="paneJeu" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="82.0" prefWidth="400.0" style="-fx-background-color: grey;">
+            <HBox fx:id="inventaire" prefHeight="82.0" prefWidth="400.0" style="-fx-background-color: grey;">
                <children>
                   <VBox onMouseClicked="#actionEpee" prefHeight="50.0" prefWidth="50.0">
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../Ressources/Sprites/Inventaire/Epee.png" />
+                              <Image url="@../../Ressources/Sprites/Inventaire/Epee.png" />
                            </image></ImageView>
                      </children>
                      <HBox.margin>
@@ -30,18 +35,18 @@
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../Ressources/Sprites/Inventaire/Pioche.png" />
+                              <Image url="@../../Ressources/Sprites/Inventaire/Pioche.png" />
                            </image></ImageView>
                      </children>
                      <HBox.margin>
                         <Insets bottom="5.0" right="10.0" top="5.0" />
                      </HBox.margin>
                   </VBox>
-                  <VBox onMouseClicked="#selectionTerre" prefHeight="50.0" prefWidth="50.0">
+                  <VBox fx:id="blocTerre" onMouseClicked="#selectionTerre" prefHeight="50.0" prefWidth="50.0">
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../Ressources/Sprites/Inventaire/BlocTerre.png" />
+                              <Image url="@../../Ressources/Sprites/Inventaire/BlocTerre.png" />
                            </image></ImageView>
                         <Label fx:id="labelTerre" alignment="CENTER" prefHeight="20.0" prefWidth="50.0" text="0" />
                      </children>
@@ -53,7 +58,7 @@
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../Ressources/Sprites/Inventaire/BlocPierre.png" />
+                              <Image url="@../../Ressources/Sprites/Inventaire/BlocPierre.png" />
                            </image></ImageView>
                         <Label fx:id="labelPierre" alignment="CENTER" prefHeight="20.0" prefWidth="50.0" text="0" />
                      </children>
@@ -65,7 +70,7 @@
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="50.0" onKeyPressed="#selectionBois" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../Ressources/Sprites/Inventaire/BlocBois.png" />
+                              <Image url="@../../Ressources/Sprites/Inventaire/BlocBois.png" />
                            </image>
                         </ImageView>
                         <Label fx:id="labelBois" alignment="CENTER" prefHeight="20.0" prefWidth="50.0" text="0" />
@@ -78,7 +83,7 @@
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../Ressources/Sprites/Inventaire/BlocCharbon.png" />
+                              <Image url="@../../Ressources/Sprites/Inventaire/BlocCharbon.png" />
                            </image>
                         </ImageView>
                         <Label fx:id="labelCharbon" alignment="CENTER" prefHeight="20.0" prefWidth="50.0" text="0" />
@@ -91,7 +96,7 @@
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../Ressources/Sprites/Inventaire/BlocFer.png" />
+                              <Image url="@../../Ressources/Sprites/Inventaire/BlocFer.png" />
                            </image>
                         </ImageView>
                         <Label fx:id="labelFer" alignment="CENTER" prefHeight="20.0" prefWidth="50.0" text="0" />
@@ -104,7 +109,7 @@
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../Ressources/Sprites/Inventaire/Fleur.png" />
+                              <Image url="@../../Ressources/Sprites/Inventaire/Fleur.png" />
                            </image>
                         </ImageView>
                         <Label fx:id="labelFleur" alignment="CENTER" prefHeight="20.0" prefWidth="50.0" text="0" />

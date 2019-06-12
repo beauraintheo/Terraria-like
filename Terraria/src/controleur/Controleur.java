@@ -12,13 +12,16 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Camera;
+import javafx.scene.Cursor;
 import javafx.scene.ParallelCamera;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
@@ -45,6 +48,9 @@ public class Controleur implements Initializable {
 
 	@FXML
 	private Pane paneJeu;
+	
+	@FXML
+	private HBox inventaire;
 
 	@FXML
 	private Label labelTerre;
@@ -64,14 +70,22 @@ public class Controleur implements Initializable {
 	@FXML
 	private Label labelFleur;
 
-
 	private void initialiserMap() {
-		this.paneJeu.getChildren().add(this.vuePlateau.getFond());
-		this.paneJeu.getChildren().add(this.vuePlateau);
+		this.paneJeu.getChildren().add(0, this.vuePlateau.getFond());
+		this.paneJeu.getChildren().add(1, this.vuePlateau);
 	}
 
+	private void initialiserInventaire() {
+		this.labelTerre.setText(Integer.toString(this.jeu.itemChoisi(1)));
+		this.labelPierre.setText(Integer.toString(this.jeu.itemChoisi(2)));
+		this.labelBois.setText(Integer.toString(this.jeu.itemChoisi(3)));
+		this.labelCharbon.setText(Integer.toString(this.jeu.itemChoisi(4)));
+		this.labelFer.setText(Integer.toString(this.jeu.itemChoisi(5)));
+		this.labelFleur.setText(Integer.toString(this.jeu.itemChoisi(6)));
+	}
+	
 	private void initialiserJoueur() {
-		this.paneJeu.getChildren().add(this.vueJoueur);
+		this.paneJeu.getChildren().add(2, this.vueJoueur);
 		this.vueJoueur.translateXProperty().bind(this.jeu.coordonneesJoueurX());
 		this.vueJoueur.translateYProperty().bind(this.jeu.coordonneesJoueurY());
 		this.vueJoueur.orientationProperty().bind(this.jeu.orientationJoueur());
@@ -83,13 +97,11 @@ public class Controleur implements Initializable {
 		this.vuePlateau = new VuePlateau(this.jeu.getTabPlateau());
 		this.vueJoueur = new VueJoueur();
 		this.jeu.ajouterObsPlateau(this.vuePlateau);
-		
+
 		toucheAppuyee = 0;
 
 		initialiserMap();
-		// initialiserCamera();
 		initialiserJoueur();
-		// initialiserEnnemis();
 		initAnimation();
 
 		gameloop.play();
@@ -102,6 +114,7 @@ public class Controleur implements Initializable {
 
 		KeyFrame kf = new KeyFrame(Duration.seconds(0.060), (ev -> {
 			this.deplacement();
+			initialiserInventaire();
 			this.jeu.unTour(timer);
 			timer++;
 		}));
@@ -123,6 +136,7 @@ public class Controleur implements Initializable {
 		Coordonnees coord = new Coordonnees((int) event.getX(), (int) event.getY());
 
 		if (event.getButton() == MouseButton.PRIMARY) {
+			this.jeu.ajouterBlocInventaire(coord);
 			this.jeu.avertirChangementPlateau("Casser", coord);
 		}
 
@@ -158,7 +172,7 @@ public class Controleur implements Initializable {
 
 	@FXML
 	void actionEpee(MouseEvent event) {
-
+		
 	}
 
 	@FXML
@@ -168,40 +182,31 @@ public class Controleur implements Initializable {
 
 	@FXML
 	void selectionBois(MouseEvent event) {
-		if (event.getButton() == MouseButton.PRIMARY) {
-			String value = Integer.toString(this.jeu.itemChoisi(item));
-			this.labelBois.setText(value);
-			System.out.println("lol");
-		}
+
 	}
 
 	@FXML
 	void selectionCharbon(MouseEvent event) {
-		String value = Integer.toString(this.jeu.itemChoisi(item));
-		this.labelCharbon.setText(value);
+		
 	}
 
 	@FXML
 	void selectionFer(MouseEvent event) {
-		String value = Integer.toString(this.jeu.itemChoisi(item));
-		this.labelFer.setText(value);
+		
 	}
 
 	@FXML
 	void selectionFleur(MouseEvent event) {
-		String value = Integer.toString(this.jeu.itemChoisi(item));
-		this.labelFleur.setText(value);
+		
 	}
 
 	@FXML
 	void selectionPierre(MouseEvent event) {
-		String value = Integer.toString(this.jeu.itemChoisi(item));
-		this.labelPierre.setText(value);
+		
 	}
 
 	@FXML
 	void selectionTerre(MouseEvent event) {
-		String value = Integer.toString(this.jeu.itemChoisi(item));
-		this.labelTerre.setText(value);
+		
 	}
 }

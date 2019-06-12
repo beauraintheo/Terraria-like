@@ -14,16 +14,21 @@ public class Inventaire {
 		this.ajouterItem(new BlocCharbon(0));
 		this.ajouterItem(new BlocFer(0));
 		this.ajouterItem(new BlocFleur(0));
+		this.ajouterItem(new Item());
 	}
 	
 	public void ajouterItem(Item item) {
 		this.items.add(item);
 	}
 	
-	public int recupererIdItem(Item item) {
+	public void retirerItem(Item item) {
+		this.items.remove(item);
+	}
+	
+	public int recupererNbExemplaire(int id) {
 		for (int i = 0; i < items.size(); i++) {
-			if (items.get(i).getId() == item.getId())
-				return item.getId();
+			if (items.get(i).getId() == id)
+				return items.get(i).getExemplaire();
 		}
 		return 0;
 	}
@@ -32,5 +37,13 @@ public class Inventaire {
 		for (int i = 0; i < items.size(); i++) {
 			System.out.println(items.get(i));
 		}
+	}
+	
+	public Item item(int id) {
+		for (int i = 0; i < items.size(); i++) {
+			if (items.get(i).getId() == id)
+				return items.get(i);
+		}
+		return null;
 	}
 }

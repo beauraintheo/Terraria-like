@@ -18,6 +18,13 @@ public class Item {
 	 * ID des blocks : 1 -> Terre 2 -> Pierre 3 -> Bois 4 -> Charbon 5 -> Fer 6 ->
 	 * Fleur 7 -> Epee 8 -> Pioche
 	 */
+	
+	public Item() {
+		this.id = 0;
+		this.nom = null;
+		this.exemplaire = new SimpleIntegerProperty();
+		this.exemplaireMax = 10000;
+	}
 
 	public Item(int id, String nom, int exemplaire, int exemplaireMax) {
 		this.id = id;
@@ -37,7 +44,7 @@ public class Item {
 	}
 
 	public boolean tailleItem() {
-		if (exemplaire.getValue() <= 0 || exemplaire.getValue() > 64)
+		if (exemplaire.getValue() < 0 || exemplaire.getValue() >= 64)
 			return false;
 		return true;
 	}
@@ -45,16 +52,17 @@ public class Item {
 	public int getId() {
 		return this.id;
 	}
-	
+
 	public IntegerProperty getExemplaireProperty() {
 		return this.exemplaire;
 	}
-	
+
 	public int getExemplaire() {
 		return this.exemplaire.getValue();
 	}
-	
+
 	public String toString() {
-		return "ID : " + this.id + "\nNom : " + this.nom + "\nTaille : " + this.getExemplaire() + "\nTaille max : " + this.exemplaireMax;
+		return "ID : " + this.id + "\nNom : " + this.nom + "\nTaille : " + this.getExemplaire() + "\nTaille max : "
+				+ this.exemplaireMax;
 	}
 }

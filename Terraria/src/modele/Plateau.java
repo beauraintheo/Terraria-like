@@ -42,7 +42,6 @@ public class Plateau {
 					coord.setCoordY(coord.getCoordY() + 16);
 				}
 			}
-
 		}
 	}
 
@@ -51,6 +50,12 @@ public class Plateau {
 			this.plateau[coord.getCoordY() / 16][coord.getCoordX() / 16] = 3;
 			avertirObs(3, coord);
 		}
+	}
+	
+	public boolean blocCasse(Coordonnees coo) {
+		if (this.getCasePlateau(coo) == 0) 
+			return true;
+		return false;
 	}
 
 	public boolean blocPosable(int casePlateau) {
@@ -148,5 +153,4 @@ public class Plateau {
 	public int getTaillePlateauY() {
 		return this.plateau[0].length;
 	}
-
 }
