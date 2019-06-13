@@ -2,6 +2,8 @@
 
 package modele;
 
+import java.util.ArrayList;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -24,10 +26,11 @@ public class Jeu {
 		this.ennemis = FXCollections.observableArrayList();
 		this.inventaire = new Inventaire();
 		this.item = new Item();
+		
 		this.ajouterEcouteurEnnemis();
-		this.ajouterNouveauEnnemi();		
+		this.ajouterNouveauEnnemi();
 	}
-
+	
 	/* ==== Méthodes Gestion Inventaire ==== */
 
 	public int itemChoisi(int id) {
@@ -209,5 +212,4 @@ public class Jeu {
 			}
 		}
 	}
-
 }

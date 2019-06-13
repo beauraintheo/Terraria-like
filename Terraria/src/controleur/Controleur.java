@@ -1,5 +1,6 @@
 package controleur;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -25,6 +26,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import modele.Coordonnees;
 import modele.Ennemi;
@@ -69,7 +72,7 @@ public class Controleur implements Initializable {
 
 	@FXML
 	private Label labelFleur;
-	
+
 	@FXML
 	private Button boutonMenu;
 
@@ -93,6 +96,18 @@ public class Controleur implements Initializable {
 		this.vueJoueur.translateYProperty().bind(this.jeu.coordonneesJoueurY());
 		this.vueJoueur.orientationProperty().bind(this.jeu.orientationJoueur());
 	}
+	
+	private void initialiserMusique() {
+		String urlString = new File("Ressources/Musique/casserBloc.wav").toURI().toString();
+		MediaPlayer mp = new MediaPlayer(new Media(urlString));
+		mp.play();
+	}
+	
+	private void initialiserMusique2() {
+		String urlString = new File("Ressources/Musique/utiliserEpee.wav").toURI().toString();
+		MediaPlayer mp = new MediaPlayer(new Media(urlString));
+		mp.play();
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -100,7 +115,7 @@ public class Controleur implements Initializable {
 		this.vuePlateau = new VuePlateau(this.jeu.getTabPlateau());
 		this.vueJoueur = new VueJoueur();
 		this.jeu.ajouterObsPlateau(this.vuePlateau);
-		
+
 		toucheAppuyee = 0;
 
 		initialiserMap();
@@ -140,16 +155,20 @@ public class Controleur implements Initializable {
 
 		if (event.getButton() == MouseButton.PRIMARY) {
 			if (this.jeu.getIdItemJoueur() == 4) {
+				this.initialiserMusique();
 				this.jeu.ajouterBlocInventaire(coord);
 				this.jeu.avertirChangementPlateau("Casser", coord);
+
 			}
-			
+
 			if (this.jeu.getIdItemJoueur() == 9) {
-				
+				this.initialiserMusique2();
 			}
 		}
 
-		if (event.getButton() == MouseButton.SECONDARY) {
+		if(event.getButton()==MouseButton.SECONDARY)
+
+		{
 			this.jeu.avertirChangementPlateau("Poser", coord);
 		}
 	}
