@@ -106,6 +106,12 @@ public class Plateau {
 			return true;
 		return false;
 	}
+	
+	public boolean blocVide(Coordonnees coord) {
+		if(getCasePlateau(coord) == -1)
+			return true;
+		return false;
+	}
 
 	public boolean blocVide(int casePlateau) {
 		if (casePlateau == -1)

@@ -191,7 +191,7 @@ public class Jeu {
 
 	public void avertirChangementPlateau(String changement, Coordonnees coord) {
 		if (changement.equals("Poser")) {
-			if (this.joueur.peutPoserCasserBloc(coord) && this.joueur.peutPoserBlocDessous(coord)) {
+			if (this.joueur.peutPoserCasserBloc(coord) && this.joueur.peutPoserBlocDessous(coord) && this.plateau.blocVide(coord)) {
 				if(this.inventaire.recupererNbExemplaire(this.joueur.getIdItem()) > 0) {
 					retirerBlocInventaire(this.joueur.getIdItem());
 					this.plateau.poserBloc(coord, this.joueur.getIdItem());
