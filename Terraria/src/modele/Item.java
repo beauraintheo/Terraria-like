@@ -15,12 +15,12 @@ public class Item {
 	private String nom;
 
 	/*
-	 * ID des blocks : 1 -> Terre 2 -> Pierre 3 -> Bois 4 -> Charbon 5 -> Fer 6 ->
-	 * Fleur 7 -> Epee 8 -> Pioche
+	 * ID des blocks : 1 -> Terre 2 -> Pierre 5 -> Bois 6 -> Charbon 7 -> Fer 17 ->
+	 * Fleur magique 9 -> Epee 4 -> Pioche
 	 */
 	
 	public Item() {
-		this.id = 0;
+		this.id = -2;				//-2 car 0 correspond à l'id du bloc d'herbe dans le plateau et -1 correspond à l'id du bloc vide dans le plateau
 		this.nom = null;
 		this.exemplaire = new SimpleIntegerProperty();
 		this.exemplaireMax = 10000;

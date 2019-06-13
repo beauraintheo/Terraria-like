@@ -126,7 +126,7 @@ public class VuePlateau extends TilePane implements ObservateurPlateau {
 			this.tilesetX = 18;
 			this.tilesetY = 52;
 			break;
-		case 17: // Plante
+		case 17: // Fleur magique
 			this.tilesetX = 35;
 			this.tilesetY = 52;
 			break;

@@ -42,20 +42,29 @@ public class Plateau {
 					coord.setCoordY(coord.getCoordY() + 16);
 				}
 			}
+
 		}
 	}
 
-	public void poserBloc(Coordonnees coord) {
+	public void poserBloc(Coordonnees coord, int idBloc) {
 		if (blocPosable(this.plateau[coord.getCoordY() / 16][coord.getCoordX() / 16])) {
-			this.plateau[coord.getCoordY() / 16][coord.getCoordX() / 16] = 3;
-			avertirObs(3, coord);
+			this.plateau[coord.getCoordY() / 16][coord.getCoordX() / 16] = idBloc;
+			avertirObs(idBloc, coord);
 		}
-	}
-	
-	public boolean blocCasse(Coordonnees coo) {
-		if (this.getCasePlateau(coo) == 0) 
-			return true;
-		return false;
+
+		Coordonnees coordBlocDessous = new Coordonnees(coord.getCoordX(), (coord.getCoordY() + 16));
+
+		if (blocHerbe(this.plateau[coordBlocDessous.getCoordY() / 16][coordBlocDessous.getCoordX() / 16]) && idBloc != 17) {
+			this.plateau[coordBlocDessous.getCoordY() / 16][coordBlocDessous.getCoordX() / 16] = 1;
+			avertirObs(1, coordBlocDessous);
+		}
+
+		Coordonnees coordBlocDessus = new Coordonnees(coord.getCoordX(), (coord.getCoordY() - 16));
+
+		if (blocVide(this.plateau[coordBlocDessus.getCoordY() / 16][coordBlocDessus.getCoordX() / 16]) && idBloc == 1) {
+			this.plateau[coord.getCoordY() / 16][coord.getCoordX() / 16] = 0;
+			avertirObs(0, coord);
+		}
 	}
 
 	public boolean blocPosable(int casePlateau) {
@@ -92,6 +101,18 @@ public class Plateau {
 		return false;
 	}
 
+	public boolean blocHerbe(int casePlateau) {
+		if (casePlateau == 0)
+			return true;
+		return false;
+	}
+
+	public boolean blocVide(int casePlateau) {
+		if (casePlateau == -1)
+			return true;
+		return false;
+	}
+
 	public boolean blocAvecSupport(int casePlateau) {
 		switch (casePlateau) {
 		case 11: // Herbe-Courte
@@ -110,8 +131,6 @@ public class Plateau {
 	public boolean blocTraversable(int casePlateau) {
 		switch (casePlateau) {
 		case -1: // Air (Vide)
-			return true;
-		case 5: // Bois
 			return true;
 		case 10: // Feuille
 			return true;

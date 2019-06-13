@@ -96,11 +96,6 @@ public abstract class Personnage {
 		return false;
 	}
 
-	public boolean peutCasser() {
-			//
-		return false;
-	}
-
 	public boolean detectionBlocPlein(int vitesseX, int vitesseY) {
 		if (this.plateau.getCasePlateau(getPositionPlus(vitesseX, vitesseY)) == 0)
 			return false;

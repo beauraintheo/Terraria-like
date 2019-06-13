@@ -66,7 +66,7 @@
                         <Insets bottom="5.0" right="10.0" top="5.0" />
                      </HBox.margin>
                   </VBox>
-                  <VBox prefHeight="50.0" prefWidth="50.0">
+                  <VBox onMouseClicked="#selectionBois" prefHeight="50.0" prefWidth="50.0">
                      <children>
                         <ImageView fitHeight="50.0" fitWidth="50.0" onKeyPressed="#selectionBois" pickOnBounds="true" preserveRatio="true">
                            <image>

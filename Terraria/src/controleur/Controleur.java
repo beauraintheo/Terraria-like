@@ -37,7 +37,6 @@ public class Controleur implements Initializable {
 	private VuePlateau vuePlateau;
 	private VueJoueur vueJoueur;
 	private VueEnnemi vueEnnemi;
-	private Item item;
 
 	private int timer;
 	private int bordTouche;
@@ -78,10 +77,10 @@ public class Controleur implements Initializable {
 	private void initialiserInventaire() {
 		this.labelTerre.setText(Integer.toString(this.jeu.itemChoisi(1)));
 		this.labelPierre.setText(Integer.toString(this.jeu.itemChoisi(2)));
-		this.labelBois.setText(Integer.toString(this.jeu.itemChoisi(3)));
-		this.labelCharbon.setText(Integer.toString(this.jeu.itemChoisi(4)));
-		this.labelFer.setText(Integer.toString(this.jeu.itemChoisi(5)));
-		this.labelFleur.setText(Integer.toString(this.jeu.itemChoisi(6)));
+		this.labelBois.setText(Integer.toString(this.jeu.itemChoisi(5)));
+		this.labelCharbon.setText(Integer.toString(this.jeu.itemChoisi(6)));
+		this.labelFer.setText(Integer.toString(this.jeu.itemChoisi(7)));
+		this.labelFleur.setText(Integer.toString(this.jeu.itemChoisi(17)));
 	}
 	
 	private void initialiserJoueur() {
@@ -156,7 +155,7 @@ public class Controleur implements Initializable {
 			}
 
 			if (touche == KeyCode.Z || touche == KeyCode.UP) {
-				if (toucheAppuyee < 10) {
+				if (toucheAppuyee < 7) {
 					this.jeu.avertirDeplacementJoueur("Haut");
 					toucheAppuyee++;
 				}
@@ -171,42 +170,59 @@ public class Controleur implements Initializable {
 	}
 
 	@FXML
-	void actionEpee(MouseEvent event) {
-		
+	void selectionTerre(MouseEvent event) {
+		System.out.println("Terre selectionnee");
+		int idItem = 1;
+		this.jeu.changerIdItemJoueur(idItem);
 	}
-
+	
+	@FXML
+	void selectionPierre(MouseEvent event) {
+		System.out.println("Pierre selectionnee");
+		int idItem = 2;
+		this.jeu.changerIdItemJoueur(idItem);
+	}
+	
 	@FXML
 	void actionPioche(MouseEvent event) {
-
+		System.out.println("Pioche selectionnee");
+		int idItem = 4;
+		this.jeu.changerIdItemJoueur(idItem);
 	}
 
 	@FXML
 	void selectionBois(MouseEvent event) {
-
+		System.out.println("Bois selectionnee");
+		int idItem = 5;
+		this.jeu.changerIdItemJoueur(idItem);
 	}
 
 	@FXML
 	void selectionCharbon(MouseEvent event) {
-		
+		System.out.println("Charbon selectionnee");
+		int idItem = 6;
+		this.jeu.changerIdItemJoueur(idItem);
 	}
 
 	@FXML
 	void selectionFer(MouseEvent event) {
-		
+		System.out.println("Fer selectionnee");
+		int idItem = 7;
+		this.jeu.changerIdItemJoueur(idItem);
+	}
+	
+	@FXML
+	void actionEpee(MouseEvent event) {
+		System.out.println("Epee selectionnee");
+		int idItem = 9;
+		this.jeu.changerIdItemJoueur(idItem);
 	}
 
 	@FXML
 	void selectionFleur(MouseEvent event) {
-		
+		System.out.println("Fleur magique selectionnee");
+		int idItem = 17;
+		this.jeu.changerIdItemJoueur(idItem);
 	}
-
-	@FXML
-	void selectionPierre(MouseEvent event) {
-		
-	}
-
-	@FXML
-	void selectionTerre(MouseEvent event) {
-		
-	}
+	
 }

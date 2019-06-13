@@ -33,6 +33,20 @@ public class Inventaire {
 		return 0;
 	}
 	
+	public void retirerUnExemplaire(int id) {
+		boolean itemRetire = false;
+		int i = 0;
+		
+		while (!itemRetire) {
+			if (this.items.get(i).getId() == id) {
+				this.items.get(i).retirerExemplaireItem();
+				itemRetire = true;
+			}
+			i++;
+		}
+		i = 0;
+	}
+	
 	public void afficherItems() {
 		for (int i = 0; i < items.size(); i++) {
 			System.out.println(items.get(i));

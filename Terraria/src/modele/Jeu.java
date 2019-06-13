@@ -35,15 +35,38 @@ public class Jeu {
 		return value;
 	}
 
-	public int ajouterBlocInventaire(Coordonnees coo) {
-		if (!plateau.blocCasse(coo)) {
-			if (plateau.getCasePlateau(coo) == 1) {
-				item = this.inventaire.item(1);
-				item.ajouterExemplaireItem();
-				System.out.println(item.getExemplaire());
+	public int ajouterBlocInventaire(Coordonnees coord) {
+		if (this.joueur.peutPoserCasserBloc(coord)) {
+			if (plateau.getCasePlateau(coord) == 1 || plateau.getCasePlateau(coord) == 0) {	//Terre - Herbe (bloc)
+				this.item = this.inventaire.item(1);
+				this.item.ajouterExemplaireItem();
+			}
+			else if (plateau.getCasePlateau(coord) == 2) {	//Pierre
+				this.item = this.inventaire.item(2);
+				this.item.ajouterExemplaireItem();
+			}
+			else if (plateau.getCasePlateau(coord) == 5) {	//Bois
+				this.item = this.inventaire.item(5);
+				this.item.ajouterExemplaireItem();
+			}
+			else if (plateau.getCasePlateau(coord) == 6) {	//Charbon
+				this.item = this.inventaire.item(6);
+				this.item.ajouterExemplaireItem();
+			}
+			else if (plateau.getCasePlateau(coord) == 7) {	//Fer
+				this.item = this.inventaire.item(7);
+				this.item.ajouterExemplaireItem();
+			}
+			else if (plateau.getCasePlateau(coord) == 17) {	//Fleur magique
+				this.item = this.inventaire.item(17);
+				this.item.ajouterExemplaireItem();
 			}
 		}
-		return 0;
+		return -2;
+	}
+	
+	public void retirerBlocInventaire(int idBloc) {
+		this.inventaire.retirerUnExemplaire(idBloc);
 	}
 
 	/* ===== ===== */
@@ -112,6 +135,10 @@ public class Jeu {
 	public StringProperty orientationJoueur() {
 		return this.joueur.orientationProperty();
 	}
+	
+	public void changerIdItemJoueur(int id) {
+		this.joueur.setIdItemEnMain(id);
+	}
 
 	/* ===== Méthodes gestion Ennemis ===== */
 
@@ -165,7 +192,10 @@ public class Jeu {
 	public void avertirChangementPlateau(String changement, Coordonnees coord) {
 		if (changement.equals("Poser")) {
 			if (this.joueur.peutPoserCasserBloc(coord) && this.joueur.peutPoserBlocDessous(coord)) {
-				this.plateau.poserBloc(coord);
+				if(this.inventaire.recupererNbExemplaire(this.joueur.getIdItem()) > 0) {
+					retirerBlocInventaire(this.joueur.getIdItem());
+					this.plateau.poserBloc(coord, this.joueur.getIdItem());
+				}
 			}
 		}
 
