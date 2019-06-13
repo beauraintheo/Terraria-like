@@ -20,12 +20,12 @@ public class Jeu {
 
 	public Jeu() {
 		this.plateau = new Plateau();
-		this.joueur = new Joueur(plateau, 16, 320);
+		this.joueur = new Joueur(plateau, 16, 320, 5, 1);
 		this.ennemis = FXCollections.observableArrayList();
 		this.inventaire = new Inventaire();
 		this.item = new Item();
 		this.ajouterEcouteurEnnemis();
-		this.ajouterNouveauEnnemi();
+		this.ajouterNouveauEnnemi();		
 	}
 
 	/* ==== Méthodes Gestion Inventaire ==== */
@@ -139,6 +139,10 @@ public class Jeu {
 	public void changerIdItemJoueur(int id) {
 		this.joueur.setIdItemEnMain(id);
 	}
+	
+	public int getIdItemJoueur() {
+		return this.joueur.getIdItem();
+	}
 
 	/* ===== Méthodes gestion Ennemis ===== */
 
@@ -147,7 +151,7 @@ public class Jeu {
 	}
 
 	public void ajouterNouveauEnnemi() {
-		this.ennemis.add(new Ennemi(this.plateau, 50, 50, 1));
+		this.ennemis.add(new Ennemi(this.plateau, 50, 50, 1, 5, 6));
 	}
 
 	public int nbEnnemis() {

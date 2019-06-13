@@ -14,6 +14,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Camera;
 import javafx.scene.Cursor;
 import javafx.scene.ParallelCamera;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
@@ -47,7 +48,7 @@ public class Controleur implements Initializable {
 
 	@FXML
 	private Pane paneJeu;
-	
+
 	@FXML
 	private HBox inventaire;
 
@@ -68,6 +69,9 @@ public class Controleur implements Initializable {
 
 	@FXML
 	private Label labelFleur;
+	
+	@FXML
+	private Button boutonMenu;
 
 	private void initialiserMap() {
 		this.paneJeu.getChildren().add(0, this.vuePlateau.getFond());
@@ -82,7 +86,7 @@ public class Controleur implements Initializable {
 		this.labelFer.setText(Integer.toString(this.jeu.itemChoisi(7)));
 		this.labelFleur.setText(Integer.toString(this.jeu.itemChoisi(17)));
 	}
-	
+
 	private void initialiserJoueur() {
 		this.paneJeu.getChildren().add(2, this.vueJoueur);
 		this.vueJoueur.translateXProperty().bind(this.jeu.coordonneesJoueurX());
@@ -96,7 +100,7 @@ public class Controleur implements Initializable {
 		this.vuePlateau = new VuePlateau(this.jeu.getTabPlateau());
 		this.vueJoueur = new VueJoueur();
 		this.jeu.ajouterObsPlateau(this.vuePlateau);
-
+		
 		toucheAppuyee = 0;
 
 		initialiserMap();
@@ -135,8 +139,14 @@ public class Controleur implements Initializable {
 		Coordonnees coord = new Coordonnees((int) event.getX(), (int) event.getY());
 
 		if (event.getButton() == MouseButton.PRIMARY) {
-			this.jeu.ajouterBlocInventaire(coord);
-			this.jeu.avertirChangementPlateau("Casser", coord);
+			if (this.jeu.getIdItemJoueur() == 4) {
+				this.jeu.ajouterBlocInventaire(coord);
+				this.jeu.avertirChangementPlateau("Casser", coord);
+			}
+			
+			if (this.jeu.getIdItemJoueur() == 9) {
+				
+			}
 		}
 
 		if (event.getButton() == MouseButton.SECONDARY) {
@@ -175,14 +185,14 @@ public class Controleur implements Initializable {
 		int idItem = 1;
 		this.jeu.changerIdItemJoueur(idItem);
 	}
-	
+
 	@FXML
 	void selectionPierre(MouseEvent event) {
 		System.out.println("Pierre selectionnee");
 		int idItem = 2;
 		this.jeu.changerIdItemJoueur(idItem);
 	}
-	
+
 	@FXML
 	void actionPioche(MouseEvent event) {
 		System.out.println("Pioche selectionnee");
@@ -210,7 +220,7 @@ public class Controleur implements Initializable {
 		int idItem = 7;
 		this.jeu.changerIdItemJoueur(idItem);
 	}
-	
+
 	@FXML
 	void actionEpee(MouseEvent event) {
 		System.out.println("Epee selectionnee");
@@ -224,5 +234,4 @@ public class Controleur implements Initializable {
 		int idItem = 17;
 		this.jeu.changerIdItemJoueur(idItem);
 	}
-	
 }

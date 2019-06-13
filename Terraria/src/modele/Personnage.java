@@ -10,11 +10,15 @@ public abstract class Personnage {
 	private Coordonnees position;
 	private StringProperty orientationProperty;
 	private Plateau plateau;
+	private int pv;
+	private int ptAtk;
 
-	public Personnage(Plateau plateau, int coordX, int coordY) {
+	public Personnage(Plateau plateau, int coordX, int coordY, int pv, int ptAtk) {
 		this.position = new Coordonnees(coordX, coordY);
 		this.orientationProperty = new SimpleStringProperty("Droite");
 		this.plateau = plateau;
+		this.pv = pv;
+		this.ptAtk = ptAtk;
 	}
 
 	public Coordonnees getPosition() {
@@ -100,5 +104,22 @@ public abstract class Personnage {
 		if (this.plateau.getCasePlateau(getPositionPlus(vitesseX, vitesseY)) == 0)
 			return false;
 		return true;
+	}
+	
+	public int getPv() {
+		return this.pv;
+	}
+	
+	public int getPtAtk() {
+		return this.ptAtk;
+	}
+	
+	public void attaquer(Personnage p) {
+		if (p.getPv() > 0) {
+			this.ptAtk -= p.getPv();
+		}
+		
+		else
+			System.out.println("Vous êtes mort !");
 	}
 }

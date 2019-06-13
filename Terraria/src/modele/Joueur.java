@@ -3,13 +3,16 @@ package modele;
 public class Joueur extends Personnage {
 	
 	//Booléen estDansLeau
-	//Booléen ou Objet possèdePioche / possèdeEpée
 
 	private int idItemEnMain;
+	private int pv;
+	private int ptAtk;
 	
-	public Joueur(Plateau plateau, int coordX, int coordY) {
-		super(plateau, coordX, coordY);
+	public Joueur(Plateau plateau, int coordX, int coordY, int pv, int ptAtk) {
+		super(plateau, coordX, coordY, pv, ptAtk);
 		this.idItemEnMain = -2;
+		this.pv = 5;
+		this.ptAtk = 1;
 	}
 
 	public boolean peutPoserCasserBloc(Coordonnees coord) {
@@ -36,5 +39,9 @@ public class Joueur extends Personnage {
 	
 	public int getIdItem() {
 		return this.idItemEnMain;
+	}
+	
+	public String toString() {
+		return "Pv : " + this.pv + "\nPtAtk : " + this.ptAtk;
 	}
 }
