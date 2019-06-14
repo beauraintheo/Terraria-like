@@ -39,7 +39,6 @@ public class Controleur implements Initializable {
 	@FXML
 	private Pane paneJeu;
 
-
 	private void initialiserMap() {
 		this.paneJeu.getChildren().add(this.vuePlateau.getFond());
 		this.paneJeu.getChildren().add(this.vuePlateau);
@@ -47,14 +46,11 @@ public class Controleur implements Initializable {
 
 	private void initialiserInventaire() {
 		this.paneJeu.getChildren().add(this.vueInventaire);
-
-		
-		int i=0;
-		while(i<8) {
+		int i = 0;
+		while (i < 8) {
 			this.vueInventaire.getLabel(i).textProperty().bind(this.jeu.nbExemplaireItemProperty(i).asString());
 			i++;
 		}
-		
 	}
 
 	private void initialiserJoueur() {
@@ -75,11 +71,11 @@ public class Controleur implements Initializable {
 
 		toucheAppuyee = 0;
 		caseSelectionne = -1;
-
+		
 		initialiserMap();
 		initialiserJoueur();
 		initialiserInventaire();
-		
+
 		initAnimation();
 
 		gameloop.play();
@@ -124,14 +120,14 @@ public class Controleur implements Initializable {
 			}
 		}
 
-		if (event.getButton() == MouseButton.SECONDARY)	{
+		if (event.getButton() == MouseButton.SECONDARY) {
 			this.jeu.avertirChangementPlateau("Poser", coord);
 		}
 	}
 
 	private void actionsClavier() {
 		if (touche != null) {
-			
+
 			if (touche == KeyCode.Q || touche == KeyCode.LEFT) {
 				this.jeu.avertirDeplacementJoueur("Gauche");
 			}
@@ -153,9 +149,9 @@ public class Controleur implements Initializable {
 				}
 			}
 
-			if ((touche == KeyCode.DIGIT1 || touche == KeyCode.F1) && caseSelectionne!=0) {
-				if(this.caseSelectionne!=-1)
-						this.vueInventaire.getVueInventaireCase(caseSelectionne).deselectionnerCase();
+			if ((touche == KeyCode.DIGIT1 || touche == KeyCode.F1) && caseSelectionne != 0) {
+				if (this.caseSelectionne != -1)
+					this.vueInventaire.getVueInventaireCase(caseSelectionne).deselectionnerCase();
 				this.vueInventaire.getVueInventaireCase(0).selectionnerCase();
 				this.caseSelectionne = 0;
 				int idItem = 9;
@@ -163,8 +159,8 @@ public class Controleur implements Initializable {
 				this.playlist.jouerMusique(2);
 			}
 
-			if ((touche == KeyCode.DIGIT2 || touche == KeyCode.F2) && caseSelectionne!=1) {
-				if(this.caseSelectionne!=-1)
+			if ((touche == KeyCode.DIGIT2 || touche == KeyCode.F2) && caseSelectionne != 1) {
+				if (this.caseSelectionne != -1)
 					this.vueInventaire.getVueInventaireCase(caseSelectionne).deselectionnerCase();
 				this.vueInventaire.getVueInventaireCase(1).selectionnerCase();
 				this.caseSelectionne = 1;
@@ -173,8 +169,8 @@ public class Controleur implements Initializable {
 				this.playlist.jouerMusique(2);
 			}
 
-			if ((touche == KeyCode.DIGIT3 || touche == KeyCode.F3) && caseSelectionne!=2) {
-				if(this.caseSelectionne!=-1)
+			if ((touche == KeyCode.DIGIT3 || touche == KeyCode.F3) && caseSelectionne != 2) {
+				if (this.caseSelectionne != -1)
 					this.vueInventaire.getVueInventaireCase(caseSelectionne).deselectionnerCase();
 				this.vueInventaire.getVueInventaireCase(2).selectionnerCase();
 				this.caseSelectionne = 2;
@@ -183,8 +179,8 @@ public class Controleur implements Initializable {
 				this.playlist.jouerMusique(2);
 			}
 
-			if ((touche == KeyCode.DIGIT4 || touche == KeyCode.F4) && caseSelectionne!=3) {
-				if(this.caseSelectionne!=-1)
+			if ((touche == KeyCode.DIGIT4 || touche == KeyCode.F4) && caseSelectionne != 3) {
+				if (this.caseSelectionne != -1)
 					this.vueInventaire.getVueInventaireCase(caseSelectionne).deselectionnerCase();
 				this.vueInventaire.getVueInventaireCase(3).selectionnerCase();
 				this.caseSelectionne = 3;
@@ -193,8 +189,8 @@ public class Controleur implements Initializable {
 				this.playlist.jouerMusique(2);
 			}
 
-			if ((touche == KeyCode.DIGIT5 || touche == KeyCode.F5) && caseSelectionne!=4) {
-				if(this.caseSelectionne!=-1)
+			if ((touche == KeyCode.DIGIT5 || touche == KeyCode.F5) && caseSelectionne != 4) {
+				if (this.caseSelectionne != -1)
 					this.vueInventaire.getVueInventaireCase(caseSelectionne).deselectionnerCase();
 				this.vueInventaire.getVueInventaireCase(4).selectionnerCase();
 				this.caseSelectionne = 4;
@@ -203,8 +199,8 @@ public class Controleur implements Initializable {
 				this.playlist.jouerMusique(2);
 			}
 
-			if ((touche == KeyCode.DIGIT6 || touche == KeyCode.F6) && caseSelectionne!=5) {
-				if(this.caseSelectionne!=-1)
+			if ((touche == KeyCode.DIGIT6 || touche == KeyCode.F6) && caseSelectionne != 5) {
+				if (this.caseSelectionne != -1)
 					this.vueInventaire.getVueInventaireCase(caseSelectionne).deselectionnerCase();
 				this.vueInventaire.getVueInventaireCase(5).selectionnerCase();
 				this.caseSelectionne = 5;
@@ -213,8 +209,8 @@ public class Controleur implements Initializable {
 				this.playlist.jouerMusique(2);
 			}
 
-			if ((touche == KeyCode.DIGIT7 || touche == KeyCode.F7) && caseSelectionne!=6) {
-				if(this.caseSelectionne!=-1)
+			if ((touche == KeyCode.DIGIT7 || touche == KeyCode.F7) && caseSelectionne != 6) {
+				if (this.caseSelectionne != -1)
 					this.vueInventaire.getVueInventaireCase(caseSelectionne).deselectionnerCase();
 				this.vueInventaire.getVueInventaireCase(6).selectionnerCase();
 				this.caseSelectionne = 6;
@@ -223,8 +219,8 @@ public class Controleur implements Initializable {
 				this.playlist.jouerMusique(2);
 			}
 
-			if ((touche == KeyCode.DIGIT8 || touche == KeyCode.F8) && caseSelectionne!=7) {
-				if(this.caseSelectionne!=-1)
+			if ((touche == KeyCode.DIGIT8 || touche == KeyCode.F8) && caseSelectionne != 7) {
+				if (this.caseSelectionne != -1)
 					this.vueInventaire.getVueInventaireCase(caseSelectionne).deselectionnerCase();
 				this.vueInventaire.getVueInventaireCase(7).selectionnerCase();
 				this.caseSelectionne = 7;

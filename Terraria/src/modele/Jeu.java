@@ -12,6 +12,7 @@ import modele.Item;
 
 public class Jeu {
 
+	private boolean musiqueGrotte;
 	private Plateau plateau;
 	private Joueur joueur;
 	private Inventaire inventaire;
@@ -26,11 +27,12 @@ public class Jeu {
 		this.inventaire = new Inventaire();
 		this.item = new Item();
 		this.playlist = new Playlist();
+		this.musiqueGrotte = false;
 		
 		this.ajouterEcouteurEnnemis();
 		this.ajouterNouveauEnnemi();
 	}
-	
+
 	/* ==== Méthodes Gestion Inventaire ==== */
 
 	public int itemChoisi(int id) {
@@ -41,7 +43,7 @@ public class Jeu {
 	public int ajouterBlocInventaire(Coordonnees coord) {
 		if (this.joueur.peutPoserCasserBloc(coord)) {
 			this.playlist.jouerMusique(1);
-			
+
 			if (plateau.getCasePlateau(coord) == 1 || plateau.getCasePlateau(coord) == 0) {	//Terre - Herbe (bloc)
 				this.item = this.inventaire.item(1);
 				this.item.ajouterExemplaireItem();
@@ -69,15 +71,15 @@ public class Jeu {
 		}
 		return -2;
 	}
-	
+
 	public void retirerBlocInventaire(int idBloc) {
 		this.inventaire.retirerUnExemplaire(idBloc);
 	}
-	
+
 	public Item getItemInventaire(int position) {
 		return this.inventaire.getItem(position);
 	}
-	
+
 	public IntegerProperty nbExemplaireItemProperty(int position) {
 		return getItemInventaire(position).getExemplaireProperty();
 	}
@@ -148,11 +150,11 @@ public class Jeu {
 	public StringProperty orientationJoueur() {
 		return this.joueur.orientationProperty();
 	}
-	
+
 	public void changerIdItemJoueur(int id) {
 		this.joueur.setIdItemEnMain(id);
 	}
-	
+
 	public int getIdItemJoueur() {
 		return this.joueur.getIdItem();
 	}
@@ -222,13 +224,12 @@ public class Jeu {
 			}
 		}
 	}
-	
+
 	public boolean peutEtreCasseMain(int idBloc) {
 		return this.plateau.blocAvecSupport(idBloc);
 	}
-	
+
 	public int getCasePlateau(Coordonnees coord) {
 		return this.plateau.getCasePlateau(coord);
 	}
-	
 }

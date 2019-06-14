@@ -9,12 +9,12 @@ public class Playlist {
 
 	private ArrayList<Musique> playlist;
 	
-	public Playlist() {
+	public Playlist() {		
 		playlist = new ArrayList<Musique>();
-		
 		playlist.add(new Musique(1, "Ressources/Musique/casserBloc.wav"));
 		playlist.add(new Musique(2, "Ressources/Musique/selectionItem.wav"));
 		playlist.add(new Musique(3, "Ressources/Musique/taper.wav"));
+		playlist.add(new Musique(4, "Ressources/Musique/musiqueExterieure.mp3"));
 	}
 
 	public void ajouterMusique(Musique m) {
@@ -33,6 +33,16 @@ public class Playlist {
 				String url = playlist.get(i).getURL();
 				MediaPlayer mp = new MediaPlayer(new Media(url));
 				mp.play();
+			}
+		}
+	}
+	
+	public void arreterMusique(int id) {
+		for (int i = 0; i < playlist.size(); i++) {
+			if (playlist.get(i).getId() == id) {
+				String url = playlist.get(i).getURL();
+				MediaPlayer mp = new MediaPlayer(new Media(url));
+				mp.stop();
 			}
 		}
 	}
