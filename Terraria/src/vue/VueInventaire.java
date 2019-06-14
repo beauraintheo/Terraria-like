@@ -1,3 +1,8 @@
+/*
+ * VueInventaire.java
+ * Cette classe s'occupe de créer notre inventaire côté vue
+ */
+
 package vue;
 
 import java.util.ArrayList;
@@ -16,7 +21,7 @@ public class VueInventaire extends HBox {
 		initialiserVueInventaire();
 		this.setAlignment(Pos.CENTER_LEFT);
 		this.setSpacing(8);
-
+		this.setStyle("-fx-background-color: #54bac3;");
 	}
 
 	private void initialiserVueInventaire() {

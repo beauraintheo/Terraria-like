@@ -1,3 +1,8 @@
+/*
+ * VueJoueur.java
+ * Cette classe sert à créer notre joueur côté vue
+ */
+
 package vue;
 
 import java.io.File;
@@ -34,6 +39,8 @@ public class VueJoueur extends ImageView {
 		return this.orientationProperty;
 	}
 
+	// Cette méthode sert à savoir notre orientation pour lier le modèle à la vue et adapter ces déplacements en fonction de notre orientation
+	
 	public void ajouterEcouteurOrientation() {
 		orientationProperty().addListener(new ChangeListener<String>() {
 			@Override
@@ -51,10 +58,7 @@ public class VueJoueur extends ImageView {
 				}
 			}
 		});
-
 	}
-
-	// Méthode pour charger l'image du personnage principal
 
 	public Image chargerImgSpawn() {
 		File imgSpawn = new File("Ressources/Sprites/Personnage/pero-spawn.png");

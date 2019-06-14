@@ -1,3 +1,8 @@
+/*
+ * VuePlateau.java
+ * Cette classe sert à créer un TilePane composé de tuiles pour créer notre map
+ */
+
 package vue;
 
 import java.io.File;
@@ -9,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 import modele.Coordonnees;
+import modele.Plateau;
 
 public class VuePlateau extends TilePane implements ObservateurPlateau {
 
@@ -18,25 +24,20 @@ public class VuePlateau extends TilePane implements ObservateurPlateau {
 	private Image imageFond;
 	private ImageView imageViewFond;
 
-	public VuePlateau(int[][] plateau) {
+	public VuePlateau(Plateau plateau) {
 		tuiles = new Image(new File("Ressources/Maps/tilesetv4.png").toURI().toString());
 		imageFond = new Image(new File("Ressources/Maps/jourv2.png").toURI().toString());
 		imageViewFond = new ImageView();
 		this.setOrientation(Orientation.HORIZONTAL);
 		this.setTileAlignment(Pos.CENTER_LEFT);
-		this.setPrefColumns(80);
+		this.setPrefColumns(plateau.getTaillePlateauY());
 		proprieteFond();
-		creeVueMap(plateau);
+		creeVueMap(plateau.getPlateau());
 	}
 
 	public void proprieteFond() {
 		this.imageViewFond.setImage(imageFond);
-		// this.imageViewFond.setFitWidth(1270);
-		// this.imageViewFond.setFitHeight(600);
 	}
-
-	// Méthode pour créer une vue de la map en fonction du plateau qui lui est
-	// donné
 
 	public void creeVueMap(int[][] plateau) {
 		for (int x = 0; x < plateau.length; x++) {
@@ -48,7 +49,7 @@ public class VuePlateau extends TilePane implements ObservateurPlateau {
 		}
 	}
 
-	// MÃ©thode pour dÃ©couper le tileset donnÃ©
+	// Méthode pour découper le tileset donné
 
 	public ImageView decoupage(int casePlateau) {
 		if (casePlateau != -1) {
@@ -65,7 +66,7 @@ public class VuePlateau extends TilePane implements ObservateurPlateau {
 		}
 	}
 
-	// MÃ©thode pour sÃ©lectionner une tuile voulue en fonction de la case du
+	// Méthode pour sélectionner une tuile voulue en fonction de la case du
 	// plateau
 
 	public void selectionTuile(int tuile) {

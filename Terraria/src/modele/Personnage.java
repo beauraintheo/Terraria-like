@@ -1,9 +1,12 @@
+/*
+ * Personnage.java
+ * Regroupe tous les types de personnages et leurs méthodes de déplacements et de combats
+ */
+
 package modele;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 
 public abstract class Personnage {
 
@@ -21,6 +24,14 @@ public abstract class Personnage {
 		this.ptAtk = ptAtk;
 	}
 
+	public Personnage(Plateau plateau, int coordX, int coordY) {
+		this.position = new Coordonnees(coordX, coordY);
+		this.orientationProperty = new SimpleStringProperty("Droite");
+		this.plateau = plateau;
+		this.pv = 0;
+		this.ptAtk = 0;
+	}
+
 	public Coordonnees getPosition() {
 		return this.position;
 	}
@@ -33,6 +44,8 @@ public abstract class Personnage {
 		return this.position.getCoordY();
 	}
 
+	// Récupère la position du bloc voulu par rapport à la position du joueur
+	
 	public Coordonnees getPositionPlus(int vitesseX, int vitesseY) {
 		Coordonnees coorProvisoires;
 
@@ -101,24 +114,33 @@ public abstract class Personnage {
 	}
 
 	public boolean detectionBlocPlein(int vitesseX, int vitesseY) {
-		if (this.plateau.getCasePlateau(getPositionPlus(vitesseX, vitesseY)) == 0)
-			return false;
-		return true;
+		if (this.plateau.getCasePlateau(getPositionPlus(vitesseX, vitesseY)) != -1)
+			return true;
+		return false;
 	}
-	
-	public int getPv() {
+
+	public int getCasePositionPlus(int vitesseX, int vitesseY) {
+		return this.plateau.getCasePlateau(getPositionPlus(vitesseX, vitesseY));
+	}
+
+	public int getPV() {
 		return this.pv;
 	}
-	
+
 	public int getPtAtk() {
 		return this.ptAtk;
 	}
-	
+
+	public void perdrePV(int degats) {
+		if (this.pv - degats > 0)
+			this.pv -= degats;
+	}
+
 	public void attaquer(Personnage p) {
-		if (p.getPv() > 0) {
-			this.ptAtk -= p.getPv();
+		if (p.getPV() > 0) {
+			this.ptAtk -= p.getPV();
 		}
-		
+
 		else
 			System.out.println("Vous êtes mort !");
 	}

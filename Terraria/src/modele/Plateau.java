@@ -1,21 +1,24 @@
+/*
+ * Plateau.java
+ * Cette classe gère la création de notre plateau de jeu (tableau d'entiers)
+ */
+
 package modele;
 
 import java.util.ArrayList;
 
 import vue.ObservateurPlateau;
 
-//TODO: Le plateau dit si un bloc est cassable ou non, sans se soucier de la position du joueur.
-
 public class Plateau {
 
 	private int[][] plateau;
 	private ArrayList<ObservateurPlateau> obs;
-	private BuilderPlateau bp = new BuilderPlateau();
-	private String url = "Ressources/Maps/mapMainSansScroll.csv";
+	private BuilderPlateau bp;
 
-	public Plateau() {
+	public Plateau(int height, int width, String url) {
+		this.bp = new BuilderPlateau(height, width);
 		this.obs = new ArrayList<ObservateurPlateau>();
-		this.bp.lireFichier(this.url);
+		this.bp.lireFichier(url);
 		this.plateau = bp.getPlateau();
 	}
 
@@ -54,7 +57,8 @@ public class Plateau {
 
 		Coordonnees coordBlocDessous = new Coordonnees(coord.getCoordX(), (coord.getCoordY() + 16));
 
-		if (blocHerbe(this.plateau[coordBlocDessous.getCoordY() / 16][coordBlocDessous.getCoordX() / 16]) && idBloc != 17) {
+		if (blocHerbe(this.plateau[coordBlocDessous.getCoordY() / 16][coordBlocDessous.getCoordX() / 16])
+				&& idBloc != 17) {
 			this.plateau[coordBlocDessous.getCoordY() / 16][coordBlocDessous.getCoordX() / 16] = 1;
 			avertirObs(1, coordBlocDessous);
 		}
@@ -106,9 +110,9 @@ public class Plateau {
 			return true;
 		return false;
 	}
-	
+
 	public boolean blocVide(Coordonnees coord) {
-		if(getCasePlateau(coord) == -1)
+		if (getCasePlateau(coord) == -1)
 			return true;
 		return false;
 	}

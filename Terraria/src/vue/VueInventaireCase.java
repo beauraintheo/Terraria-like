@@ -1,3 +1,8 @@
+/*
+ * VueInventaireCase.java
+ * Cette classe sert à créer les VBox de notre inventaire
+ */
+
 package vue;
 
 import java.io.File;
@@ -8,23 +13,22 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 public class VueInventaireCase extends VBox {
-	
+
 	private ImageView img;
 	private Label l;
-	//private boolean estSelectionnee;
-	
+
 	public VueInventaireCase(int numCase) {
 		this.img = new ImageView();
 		this.img.setFitWidth(64);
 		this.img.setFitHeight(64);
 		this.l = new Label();
+		this.l.setTranslateX(24);
 		ajouterImage(numCase);
 		this.getChildren().add(img);
 		this.getChildren().add(l);
 		this.setStyle("-fx-border-color: black;");
-		//this.estSelectionnee = false;
 	}
-	
+
 	private void ajouterImage(int numCase) {
 		switch (numCase) {
 		case 1: // Epee
@@ -55,24 +59,16 @@ public class VueInventaireCase extends VBox {
 			this.img.setImage(new Image(new File("Ressources/Sprites/Inventaire/BlocTerre.png").toURI().toString()));
 		}
 	}
-	
+
 	public Label getLabel() {
 		return this.l;
 	}
-	
+
 	public void selectionnerCase() {
 		this.setStyle("-fx-border-color: red;");
-		//this.estSelectionnee = true;
 	}
-	
+
 	public void deselectionnerCase() {
 		this.setStyle("-fx-border-color: black;");
 	}
-	
-	/*public boolean caseSelectionnee() {
-		return this.estSelectionnee;
-	}*/
-	
-	
-	
 }

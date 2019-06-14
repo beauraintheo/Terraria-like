@@ -1,3 +1,9 @@
+/*
+ * VueCurseur.java
+ * Cette classe sert à afficher un curseur différent de celui de base
+ * Inutilisé dans notre jeu mais fonctionnel
+ */
+
 package vue;
 
 import java.io.File;

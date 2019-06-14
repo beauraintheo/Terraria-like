@@ -6,8 +6,6 @@ package modele;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 
 public class Item {
 
@@ -20,9 +18,10 @@ public class Item {
 	 * ID des blocks : 1 -> Terre 2 -> Pierre 5 -> Bois 6 -> Charbon 7 -> Fer 17 ->
 	 * Fleur magique 9 -> Epee 4 -> Pioche
 	 */
-	
+
 	public Item() {
-		this.id = -2;				//-2 car 0 correspond à l'id du bloc d'herbe dans le plateau et -1 correspond à l'id du bloc vide dans le plateau
+		this.id = -2; // -2 car 0 correspond à l'id du bloc d'herbe dans le plateau et -1 correspond à
+						// l'id du bloc vide dans le plateau
 		this.nom = null;
 		this.exemplaire = new SimpleIntegerProperty();
 		this.exemplaireMax = 10000;

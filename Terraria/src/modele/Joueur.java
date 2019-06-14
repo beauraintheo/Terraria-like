@@ -1,8 +1,11 @@
+/*
+ * Joueur.java
+ * Cette classe déclare notre personnage principal
+ */
+
 package modele;
 
 public class Joueur extends Personnage {
-	
-	//Booléen estDansLeau
 
 	private int idItemEnMain;
 	private int pv;
@@ -10,6 +13,13 @@ public class Joueur extends Personnage {
 	
 	public Joueur(Plateau plateau, int coordX, int coordY, int pv, int ptAtk) {
 		super(plateau, coordX, coordY, pv, ptAtk);
+		this.idItemEnMain = -2;
+		this.pv = 5;
+		this.ptAtk = 1;
+	}
+	
+	public Joueur(Plateau plateau, int coordX, int coordY) {
+		super(plateau, coordX, coordY);
 		this.idItemEnMain = -2;
 		this.pv = 5;
 		this.ptAtk = 1;

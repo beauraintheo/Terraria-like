@@ -1,3 +1,8 @@
+/*
+ * Musique.java
+ * Création d'une musique
+ */
+
 package modele;
 
 import java.io.File;
