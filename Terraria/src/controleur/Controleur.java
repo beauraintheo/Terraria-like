@@ -1,49 +1,36 @@
 package controleur;
 
-import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import vue.VueEnnemi;
-import vue.VueInterfaceHaut;
+import vue.VueInventaire;
 import vue.VueJoueur;
 import vue.VuePlateau;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Camera;
-import javafx.scene.Cursor;
-import javafx.scene.ParallelCamera;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import modele.Coordonnees;
-import modele.Ennemi;
-import modele.Item;
 import modele.Jeu;
-import modele.Joueur;
+import modele.Playlist;
 
 public class Controleur implements Initializable {
 
 	private Jeu jeu;
+	private Playlist playlist;
 	private VuePlateau vuePlateau;
 	private VueJoueur vueJoueur;
-	private VueEnnemi vueEnnemi;
+	private VueInventaire vueInventaire;
+	private int caseSelectionne;
 
 	private int timer;
-	private int bordTouche;
 	private int toucheAppuyee;
 
 	private Timeline gameloop;
@@ -52,61 +39,29 @@ public class Controleur implements Initializable {
 	@FXML
 	private Pane paneJeu;
 
-	@FXML
-	private HBox inventaire;
-
-	@FXML
-	private Label labelTerre;
-
-	@FXML
-	private Label labelPierre;
-
-	@FXML
-	private Label labelBois;
-
-	@FXML
-	private Label labelCharbon;
-
-	@FXML
-	private Label labelFer;
-
-	@FXML
-	private Label labelFleur;
-
-	@FXML
-	private Button boutonMenu;
 
 	private void initialiserMap() {
-		this.paneJeu.getChildren().add(0, this.vuePlateau.getFond());
-		this.paneJeu.getChildren().add(1, this.vuePlateau);
+		this.paneJeu.getChildren().add(this.vuePlateau.getFond());
+		this.paneJeu.getChildren().add(this.vuePlateau);
 	}
 
 	private void initialiserInventaire() {
-		this.labelTerre.setText(Integer.toString(this.jeu.itemChoisi(1)));
-		this.labelPierre.setText(Integer.toString(this.jeu.itemChoisi(2)));
-		this.labelBois.setText(Integer.toString(this.jeu.itemChoisi(5)));
-		this.labelCharbon.setText(Integer.toString(this.jeu.itemChoisi(6)));
-		this.labelFer.setText(Integer.toString(this.jeu.itemChoisi(7)));
-		this.labelFleur.setText(Integer.toString(this.jeu.itemChoisi(17)));
+		this.paneJeu.getChildren().add(this.vueInventaire);
+
+		
+		int i=0;
+		while(i<8) {
+			this.vueInventaire.getLabel(i).textProperty().bind(this.jeu.nbExemplaireItemProperty(i).asString());
+			i++;
+		}
+		
 	}
 
 	private void initialiserJoueur() {
-		this.paneJeu.getChildren().add(2, this.vueJoueur);
+		this.paneJeu.getChildren().add(this.vueJoueur);
 		this.vueJoueur.translateXProperty().bind(this.jeu.coordonneesJoueurX());
 		this.vueJoueur.translateYProperty().bind(this.jeu.coordonneesJoueurY());
 		this.vueJoueur.orientationProperty().bind(this.jeu.orientationJoueur());
-	}
-	
-	private void initialiserMusique() {
-		String urlString = new File("Ressources/Musique/casserBloc.wav").toURI().toString();
-		MediaPlayer mp = new MediaPlayer(new Media(urlString));
-		mp.play();
-	}
-	
-	private void initialiserMusique2() {
-		String urlString = new File("Ressources/Musique/utiliserEpee.wav").toURI().toString();
-		MediaPlayer mp = new MediaPlayer(new Media(urlString));
-		mp.play();
 	}
 
 	@Override
@@ -114,12 +69,17 @@ public class Controleur implements Initializable {
 		this.jeu = new Jeu();
 		this.vuePlateau = new VuePlateau(this.jeu.getTabPlateau());
 		this.vueJoueur = new VueJoueur();
+		this.vueInventaire = new VueInventaire();
 		this.jeu.ajouterObsPlateau(this.vuePlateau);
+		this.playlist = new Playlist();
 
 		toucheAppuyee = 0;
+		caseSelectionne = -1;
 
 		initialiserMap();
 		initialiserJoueur();
+		initialiserInventaire();
+		
 		initAnimation();
 
 		gameloop.play();
@@ -131,8 +91,7 @@ public class Controleur implements Initializable {
 		timer = 0;
 
 		KeyFrame kf = new KeyFrame(Duration.seconds(0.060), (ev -> {
-			this.deplacement();
-			initialiserInventaire();
+			this.actionsClavier();
 			this.jeu.unTour(timer);
 			timer++;
 		}));
@@ -154,27 +113,25 @@ public class Controleur implements Initializable {
 		Coordonnees coord = new Coordonnees((int) event.getX(), (int) event.getY());
 
 		if (event.getButton() == MouseButton.PRIMARY) {
-			if (this.jeu.getIdItemJoueur() == 4) {
-				this.initialiserMusique();
+			if (this.jeu.getIdItemJoueur() == 4 || this.jeu.peutEtreCasseMain(this.jeu.getCasePlateau(coord))) {
 				this.jeu.ajouterBlocInventaire(coord);
 				this.jeu.avertirChangementPlateau("Casser", coord);
 
 			}
 
 			if (this.jeu.getIdItemJoueur() == 9) {
-				this.initialiserMusique2();
+				this.playlist.jouerMusique(3);
 			}
 		}
 
-		if(event.getButton()==MouseButton.SECONDARY)
-
-		{
+		if (event.getButton() == MouseButton.SECONDARY)	{
 			this.jeu.avertirChangementPlateau("Poser", coord);
 		}
 	}
 
-	private void deplacement() {
+	private void actionsClavier() {
 		if (touche != null) {
+			
 			if (touche == KeyCode.Q || touche == KeyCode.LEFT) {
 				this.jeu.avertirDeplacementJoueur("Gauche");
 			}
@@ -195,62 +152,87 @@ public class Controleur implements Initializable {
 					}
 				}
 			}
+
+			if ((touche == KeyCode.DIGIT1 || touche == KeyCode.F1) && caseSelectionne!=0) {
+				if(this.caseSelectionne!=-1)
+						this.vueInventaire.getVueInventaireCase(caseSelectionne).deselectionnerCase();
+				this.vueInventaire.getVueInventaireCase(0).selectionnerCase();
+				this.caseSelectionne = 0;
+				int idItem = 9;
+				this.jeu.changerIdItemJoueur(idItem);
+				this.playlist.jouerMusique(2);
+			}
+
+			if ((touche == KeyCode.DIGIT2 || touche == KeyCode.F2) && caseSelectionne!=1) {
+				if(this.caseSelectionne!=-1)
+					this.vueInventaire.getVueInventaireCase(caseSelectionne).deselectionnerCase();
+				this.vueInventaire.getVueInventaireCase(1).selectionnerCase();
+				this.caseSelectionne = 1;
+				int idItem = 4;
+				this.jeu.changerIdItemJoueur(idItem);
+				this.playlist.jouerMusique(2);
+			}
+
+			if ((touche == KeyCode.DIGIT3 || touche == KeyCode.F3) && caseSelectionne!=2) {
+				if(this.caseSelectionne!=-1)
+					this.vueInventaire.getVueInventaireCase(caseSelectionne).deselectionnerCase();
+				this.vueInventaire.getVueInventaireCase(2).selectionnerCase();
+				this.caseSelectionne = 2;
+				int idItem = 1;
+				this.jeu.changerIdItemJoueur(idItem);
+				this.playlist.jouerMusique(2);
+			}
+
+			if ((touche == KeyCode.DIGIT4 || touche == KeyCode.F4) && caseSelectionne!=3) {
+				if(this.caseSelectionne!=-1)
+					this.vueInventaire.getVueInventaireCase(caseSelectionne).deselectionnerCase();
+				this.vueInventaire.getVueInventaireCase(3).selectionnerCase();
+				this.caseSelectionne = 3;
+				int idItem = 2;
+				this.jeu.changerIdItemJoueur(idItem);
+				this.playlist.jouerMusique(2);
+			}
+
+			if ((touche == KeyCode.DIGIT5 || touche == KeyCode.F5) && caseSelectionne!=4) {
+				if(this.caseSelectionne!=-1)
+					this.vueInventaire.getVueInventaireCase(caseSelectionne).deselectionnerCase();
+				this.vueInventaire.getVueInventaireCase(4).selectionnerCase();
+				this.caseSelectionne = 4;
+				int idItem = 5;
+				this.jeu.changerIdItemJoueur(idItem);
+				this.playlist.jouerMusique(2);
+			}
+
+			if ((touche == KeyCode.DIGIT6 || touche == KeyCode.F6) && caseSelectionne!=5) {
+				if(this.caseSelectionne!=-1)
+					this.vueInventaire.getVueInventaireCase(caseSelectionne).deselectionnerCase();
+				this.vueInventaire.getVueInventaireCase(5).selectionnerCase();
+				this.caseSelectionne = 5;
+				int idItem = 6;
+				this.jeu.changerIdItemJoueur(idItem);
+				this.playlist.jouerMusique(2);
+			}
+
+			if ((touche == KeyCode.DIGIT7 || touche == KeyCode.F7) && caseSelectionne!=6) {
+				if(this.caseSelectionne!=-1)
+					this.vueInventaire.getVueInventaireCase(caseSelectionne).deselectionnerCase();
+				this.vueInventaire.getVueInventaireCase(6).selectionnerCase();
+				this.caseSelectionne = 6;
+				int idItem = 7;
+				this.jeu.changerIdItemJoueur(idItem);
+				this.playlist.jouerMusique(2);
+			}
+
+			if ((touche == KeyCode.DIGIT8 || touche == KeyCode.F8) && caseSelectionne!=7) {
+				if(this.caseSelectionne!=-1)
+					this.vueInventaire.getVueInventaireCase(caseSelectionne).deselectionnerCase();
+				this.vueInventaire.getVueInventaireCase(7).selectionnerCase();
+				this.caseSelectionne = 7;
+				int idItem = 17;
+				this.jeu.changerIdItemJoueur(idItem);
+				this.playlist.jouerMusique(2);
+			}
 		}
 	}
 
-	@FXML
-	void selectionTerre(MouseEvent event) {
-		System.out.println("Terre selectionnee");
-		int idItem = 1;
-		this.jeu.changerIdItemJoueur(idItem);
-	}
-
-	@FXML
-	void selectionPierre(MouseEvent event) {
-		System.out.println("Pierre selectionnee");
-		int idItem = 2;
-		this.jeu.changerIdItemJoueur(idItem);
-	}
-
-	@FXML
-	void actionPioche(MouseEvent event) {
-		System.out.println("Pioche selectionnee");
-		int idItem = 4;
-		this.jeu.changerIdItemJoueur(idItem);
-	}
-
-	@FXML
-	void selectionBois(MouseEvent event) {
-		System.out.println("Bois selectionnee");
-		int idItem = 5;
-		this.jeu.changerIdItemJoueur(idItem);
-	}
-
-	@FXML
-	void selectionCharbon(MouseEvent event) {
-		System.out.println("Charbon selectionnee");
-		int idItem = 6;
-		this.jeu.changerIdItemJoueur(idItem);
-	}
-
-	@FXML
-	void selectionFer(MouseEvent event) {
-		System.out.println("Fer selectionnee");
-		int idItem = 7;
-		this.jeu.changerIdItemJoueur(idItem);
-	}
-
-	@FXML
-	void actionEpee(MouseEvent event) {
-		System.out.println("Epee selectionnee");
-		int idItem = 9;
-		this.jeu.changerIdItemJoueur(idItem);
-	}
-
-	@FXML
-	void selectionFleur(MouseEvent event) {
-		System.out.println("Fleur magique selectionnee");
-		int idItem = 17;
-		this.jeu.changerIdItemJoueur(idItem);
-	}
 }

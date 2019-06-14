@@ -2,8 +2,6 @@
 
 package modele;
 
-import java.util.ArrayList;
-
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -18,14 +16,16 @@ public class Jeu {
 	private Joueur joueur;
 	private Inventaire inventaire;
 	private Item item;
+	private Playlist playlist;
 	private ObservableList<Ennemi> ennemis;
 
 	public Jeu() {
 		this.plateau = new Plateau();
-		this.joueur = new Joueur(plateau, 16, 320, 5, 1);
+		this.joueur = new Joueur(plateau, 16, 304, 5, 1);
 		this.ennemis = FXCollections.observableArrayList();
 		this.inventaire = new Inventaire();
 		this.item = new Item();
+		this.playlist = new Playlist();
 		
 		this.ajouterEcouteurEnnemis();
 		this.ajouterNouveauEnnemi();
@@ -40,6 +40,8 @@ public class Jeu {
 
 	public int ajouterBlocInventaire(Coordonnees coord) {
 		if (this.joueur.peutPoserCasserBloc(coord)) {
+			this.playlist.jouerMusique(1);
+			
 			if (plateau.getCasePlateau(coord) == 1 || plateau.getCasePlateau(coord) == 0) {	//Terre - Herbe (bloc)
 				this.item = this.inventaire.item(1);
 				this.item.ajouterExemplaireItem();
@@ -70,6 +72,14 @@ public class Jeu {
 	
 	public void retirerBlocInventaire(int idBloc) {
 		this.inventaire.retirerUnExemplaire(idBloc);
+	}
+	
+	public Item getItemInventaire(int position) {
+		return this.inventaire.getItem(position);
+	}
+	
+	public IntegerProperty nbExemplaireItemProperty(int position) {
+		return getItemInventaire(position).getExemplaireProperty();
 	}
 
 	/* ===== ===== */
@@ -119,7 +129,6 @@ public class Jeu {
 
 		else if (direction.equals("Bas")) {
 			this.joueur.tomber();
-			System.out.println(this.joueur.getPosition());
 		}
 
 	}
@@ -213,4 +222,13 @@ public class Jeu {
 			}
 		}
 	}
+	
+	public boolean peutEtreCasseMain(int idBloc) {
+		return this.plateau.blocAvecSupport(idBloc);
+	}
+	
+	public int getCasePlateau(Coordonnees coord) {
+		return this.plateau.getCasePlateau(coord);
+	}
+	
 }

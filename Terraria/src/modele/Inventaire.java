@@ -8,13 +8,14 @@ public class Inventaire {
 	
 	public Inventaire() {
 		items = new ArrayList<Item>();
+		this.ajouterItem(new Item());
+		this.ajouterItem(new Item());
 		this.ajouterItem(new BlocTerre(16));
 		this.ajouterItem(new BlocPierre(0));
 		this.ajouterItem(new BlocBois(16));
 		this.ajouterItem(new BlocCharbon(0));
 		this.ajouterItem(new BlocFer(0));
 		this.ajouterItem(new BlocFleur(0));
-		this.ajouterItem(new Item());
 	}
 	
 	public void ajouterItem(Item item) {
@@ -51,6 +52,10 @@ public class Inventaire {
 		for (int i = 0; i < items.size(); i++) {
 			System.out.println(items.get(i));
 		}
+	}
+	
+	public Item getItem(int position) {
+		return this.items.get(position);
 	}
 	
 	public Item item(int id) {

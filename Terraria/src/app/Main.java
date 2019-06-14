@@ -19,7 +19,7 @@ public class Main extends Application {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("../vue/Test.fxml"));
 			BorderPane root = (BorderPane) loader.load();
-			Scene scene = new Scene(root, 800, 800);
+			Scene scene = new Scene(root, 1280, 1000);
 			primaryStage.setScene(scene);
 			root.requestFocus();
 			primaryStage.setTitle("Terraria");
@@ -35,4 +35,4 @@ public class Main extends Application {
 	}
 }
 
-// ©Terraria - BEAURAIN Théo - UTKIN Liam - PAPROCKI Alexandre
+// ©Terraria - BEAURAIN Theo - UTKIN Liam - PAPROCKI Alexandre
