@@ -119,6 +119,7 @@ public class Jeu {
 
 		else if (direction.equals("Bas")) {
 			this.joueur.tomber();
+			System.out.println(this.joueur.getPosition());
 		}
 
 	}
